@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../CaiJianLibrary/CaiJianLibrary.iml" filepath="$PROJECT_DIR$/../CaiJianLibrary/CaiJianLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../StartPark.iml" filepath="$PROJECT_DIR$/../StartPark.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../app/app.iml" filepath="$PROJECT_DIR$/../app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../app2/app2.iml" filepath="$PROJECT_DIR$/../app2/app2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/filmacademy.iml" filepath="$PROJECT_DIR$/filmacademy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../library2/library2.iml" filepath="$PROJECT_DIR$/../library2/library2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../toolbar/toolbar.iml" filepath="$PROJECT_DIR$/../toolbar/toolbar.iml" />
+    </modules>
+  </component>
+</project>

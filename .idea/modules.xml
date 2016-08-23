@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/FilmAcademy.iml" filepath="$PROJECT_DIR$/FilmAcademy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/filmacademy/filmacademy.iml" filepath="$PROJECT_DIR$/filmacademy/filmacademy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library2/library2.iml" filepath="$PROJECT_DIR$/library2/library2.iml" />
+    </modules>
+  </component>
+</project>

@@ -8,7 +8,7 @@
     tools:context=".activity.LoginActivity">
 
     <include
-        layout="@layout/layout_top"
+        layout="@layout/layout_top2"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize" />
 

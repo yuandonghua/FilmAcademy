@@ -27,7 +27,10 @@ public class Film implements Parcelable {
     private String sfrom = "";
     private String duration = "";
     private String auth = "";
+    //电影个数
     private String count = "";
+    private String canShow="";
+    private String path="";
     public Film() {
     }
 
@@ -44,6 +47,8 @@ public class Film implements Parcelable {
         auth = in.readString();
         count = in.readString();
         timeShow = in.readString();
+        canShow = in.readString();
+        path= in.readString();
     }
 
     @Override
@@ -60,6 +65,8 @@ public class Film implements Parcelable {
         dest.writeString(auth);
         dest.writeString(count);
         dest.writeString(timeShow);
+        dest.writeString(canShow);
+        dest.writeString(path);
     }
 
     @Override
@@ -173,5 +180,21 @@ public class Film implements Parcelable {
 
     public void setTimeShow(String timeShow) {
         this.timeShow = timeShow;
+    }
+
+    public String getCanShow() {
+        return canShow;
+    }
+
+    public void setCanShow(String canShow) {
+        this.canShow = canShow;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">童星电影学院</string>
+    <string name="app_name">童星学院</string>
     <string name="action_settings">设置</string>
     <string name="permission_rationale">"请允许权限"</string>
     <string name="prompt_phone">手机号</string>
@@ -24,4 +24,5 @@
     <string name="error_different_required">密码和确认密码不相同</string>
     <string name="being_processed">正在处理,请稍后...</string>
     <string name="regist_success">注册成功</string>
+    <string name="action_regist">注册</string>
 </resources>

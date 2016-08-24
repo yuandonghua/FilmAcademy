@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
+import org.xutils.common.util.LogUtil;
 import org.xutils.x;
 
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class FilmCategoryAdapter extends Adapter<FilmCategoryAdapter.ViewHolder>
     public void onBindViewHolder(ViewHolder holder, int position) {
         x.image().bind(holder.imageView,list.get(position).getThumb(), XUtils.getInstance().getImageOptions(activity));
         holder.title_tv.setText(list.get(position).getTitle());
-        holder.time_tv.setText(list.get(position).getAddTimeShow()+"分钟");
+        holder.time_tv.setText(list.get(position).getTimeShow());
         holder.count_tv.setText(list.get(position).getCount()+"个视频");
     }
 
@@ -82,6 +83,7 @@ public class FilmCategoryAdapter extends Adapter<FilmCategoryAdapter.ViewHolder>
             if (onItemClickListener != null) {
                 onItemClickListener.onItemClick(v, getLayoutPosition());
 
+            }else{
             }
         }
     }

@@ -57,14 +57,14 @@ private int position;
             case 3:
                 rootView = DownloadPage.getInstance().getView();
                 if (rootView == null) {
-                    rootView = inflater.inflate(R.layout.fragment_filmcategory, container, false);
+                    rootView = inflater.inflate(R.layout.fragment_filmresourcelist, container, false);
                     DownloadPage.getInstance().start(getActivity(), rootView);
                 }
                 break;
             case 4:
                 rootView = MePage.getInstance().getView();
                 if (rootView == null) {
-                    rootView = inflater.inflate(R.layout.fragment_filmcategory, container, false);
+                    rootView = inflater.inflate(R.layout.fragment_me, container, false);
                     MePage.getInstance().start(getActivity(), rootView);
                 }
                 break;
@@ -78,7 +78,22 @@ private int position;
     @Override
     public void onResume() {
         super.onResume();
+        switch (position) {
+            case 1:
 
+                    FilmListPage.getInstance().initData();
+
+                break;
+            case 2:
+                FilmCategoryPage.getInstance().initData();
+                break;
+            case 3:
+
+                break;
+            case 4:
+
+                break;
+        }
     }
 
 

@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -55,18 +57,11 @@ public class LoginActivity extends BaseActivity {
     private View mProgressView;
     private View mLoginFormView;
     private TextView findPassword_tv;
-    private ImageView back_iv;
-    private TextView title_tv;
-    private TextView right_tv;
 
 
     @Override
-    public void initTopView() {
-        title_tv = (TextView) findViewById(R.id.title_tv);
-        title_tv.setText(R.string.action_login);
-        right_tv = (TextView) findViewById(R.id.right_tv);
-        right_tv.setText(R.string.regist);
-        right_tv.setVisibility(View.VISIBLE);
+    public void initTopView(String title) {
+        super.initTopView("登陆");
     }
 
     @Override
@@ -78,23 +73,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void initListener() {
-        back_iv = (ImageView) findViewById(R.id.back_iv);
-        back_iv.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        //点击注册
-        right_tv.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(activity, WritePhoneActivity.class);
-                startActivity(intent);
-                finish();
 
-            }
-        });
         findPassword_tv = (TextView) findViewById(R.id.findPassword_tv);
         findPassword_tv.setOnClickListener(new OnClickListener() {
             @Override
@@ -231,5 +210,25 @@ public class LoginActivity extends BaseActivity {
             }
         }
     };
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+     getMenuInflater().inflate(R.menu.menu_login,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id=item.getItemId();
+        if (id==R.id.action_regist){
+            Intent intent = new Intent(activity, WritePhoneActivity.class);
+            startActivity(intent);
+            finish();
+            return true;
+
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
 }
 

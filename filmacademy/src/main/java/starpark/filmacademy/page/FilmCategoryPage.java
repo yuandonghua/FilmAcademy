@@ -1,6 +1,7 @@
 package starpark.filmacademy.page;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import starpark.filmacademy.R;
+import starpark.filmacademy.activity.FilmCategoryDetailedInfoActivity;
+import starpark.filmacademy.activity.FilmDetailedInfoActivity;
 import starpark.filmacademy.adapter.FilmCategoryAdapter;
 import starpark.filmacademy.data.Film;
 import starpark.filmacademy.http.FilmDataHttp;
@@ -49,15 +52,10 @@ public class FilmCategoryPage {
         return view;
     }
 
-    private void initData() {
-        if (ManageUserDataUtil.getInstance().getUserId(activity) != "") {
+    public void initData() {
             //获取电影列表
-            FilmDataHttp.getInstance().getResGroupList(
+            FilmDataHttp.getInstance().getResGroupList(ManageUserDataUtil.getInstance().getUserId(activity),
                     handler, HttpIdentifyingCodeUtil.GETRESCOURSELIST_S, HttpIdentifyingCodeUtil.GETRESCOURSELIST_E);
-        } else {
-            //没有用户id
-
-        }
 
     }
 
@@ -75,6 +73,9 @@ public class FilmCategoryPage {
         filmCategoryAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                Intent intent=new Intent(activity, FilmCategoryDetailedInfoActivity.class);
+                intent.putExtra("course_id",list.get(position).getId());
+                activity.startActivity(intent);
             }
         });
 

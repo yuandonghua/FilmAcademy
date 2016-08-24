@@ -8,7 +8,6 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="6dp"
         app:cardElevation="0dp"
@@ -22,7 +21,8 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="180dp"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/ic_launcher" />
 
 

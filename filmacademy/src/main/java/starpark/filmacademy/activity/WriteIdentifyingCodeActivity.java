@@ -34,8 +34,6 @@ public class WriteIdentifyingCodeActivity extends BaseActivity {
     private View mLoginFormView;
     private Activity activity = WriteIdentifyingCodeActivity.this;
     private TextView findPassword_tv;
-    private TextView title_tv;
-    private TextView right_tv;
     private String identifyingCode = "8888";
     private String flag;
     private String phone;
@@ -47,11 +45,9 @@ public class WriteIdentifyingCodeActivity extends BaseActivity {
     }
 
     @Override
-    public void initTopView() {
+    public void initTopView(String title) {
+        super.initTopView("填写验证码");
 
-
-        title_tv = (TextView) findViewById(R.id.title_tv);
-        title_tv.setText(R.string.title_identifyingcode);
     }
 
     @Override
@@ -63,14 +59,6 @@ public class WriteIdentifyingCodeActivity extends BaseActivity {
 
     @Override
     public void initListener() {
-        ImageView back_iv = (ImageView) findViewById(R.id.back_iv);
-        //点击返回
-        back_iv.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
         Button next_btn = (Button) findViewById(R.id.next_btn);
 
 

@@ -8,11 +8,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -30,6 +33,7 @@ public class BaseActivity extends AppCompatActivity {
     public final String F = "flag";
     public Activity activity = BaseActivity.this;
     public ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,9 +41,9 @@ public class BaseActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         hideBar(true);
         x.view().inject(this);
-        initTopView();
-        initView();
         receiveIntentData();
+        initTopView("");
+        initView();
         initData();
         initListener();
 
@@ -49,7 +53,7 @@ public class BaseActivity extends AppCompatActivity {
     public void hideBar(boolean b) {
         if (b) {
             supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        }else{
+        } else {
         }
     }
 
@@ -57,10 +61,31 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-    public void initTopView() {
+    public void initTopView(String title) {
+        try {
+
+
+            TextView title_tv = (TextView) findViewById(R.id.title_tv);
+            if (title_tv != null) {
+
+                title_tv.setText(title);
+            }
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            if (toolbar != null) {
+
+                setSupportActionBar(toolbar);
+            }
+            ActionBar supportActionBar = getSupportActionBar();
+            if (supportActionBar != null) {
+                supportActionBar.setDisplayHomeAsUpEnabled(true);
+                supportActionBar.setDisplayShowTitleEnabled(false);
+            }
+
+        } catch (Exception e) {
+
+        }
     }
 
-    ;
 
     public void initView() {
     }
@@ -105,7 +130,7 @@ public class BaseActivity extends AppCompatActivity {
             if (!progressDialog.isShowing()) {
                 finish();
             } else {
-                Toast.makeText(this,R.string.being_processed, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.being_processed, Toast.LENGTH_SHORT).show();
             }
             return true;
         }

@@ -24,10 +24,11 @@ import starpark.filmacademy.listener.OnItemClickListener;
 import starpark.filmacademy.utils.XUtils;
 
 /**
- * @description:电影详情的适配器
- * @author:袁东华 created at 2016/8/23 0023 下午 4:05
+ *@description:电影分类详情的适配器
+ *@author:袁东华
+ *created at 2016/8/24 0024 下午 1:45
  */
-public class FilmDetailedInfoAdapter extends Adapter<FilmDetailedInfoAdapter.ViewHolder> {
+public class FilmCategoryDetailedInfoAdapter extends Adapter<FilmCategoryDetailedInfoAdapter.ViewHolder> {
     //头部item
     public static final int TYPE_HEADER = 0;
     //正常item
@@ -37,7 +38,7 @@ public class FilmDetailedInfoAdapter extends Adapter<FilmDetailedInfoAdapter.Vie
     private ArrayList<Film> list;
     private View headerView;
 
-    public FilmDetailedInfoAdapter(Activity activity) {
+    public FilmCategoryDetailedInfoAdapter(Activity activity) {
         this.activity = activity;
 
     }
@@ -69,7 +70,7 @@ public class FilmDetailedInfoAdapter extends Adapter<FilmDetailedInfoAdapter.Vie
             viewHolder = new ViewHolder(headerView, mOnItemClickListener);
         }else if (viewType==TYPE_NORMAL){
             //加载推荐视频View
-            View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.item_filmdetailedinfo, parent, false);
+            View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.item_filmcategorydetailedinfo, parent, false);
             viewHolder = new ViewHolder(view, mOnItemClickListener);
         }
 
@@ -80,6 +81,7 @@ public class FilmDetailedInfoAdapter extends Adapter<FilmDetailedInfoAdapter.Vie
     public void onBindViewHolder(ViewHolder holder, final int position) {
         if (getItemViewType(position)==TYPE_HEADER){
             holder.title_tv.setText(list.get(position).getTitle());
+            holder.count_tv.setText(list.get(position).getCount()+"个视频");
             holder.time_tv.setText(list.get(position).getTimeShow());
             holder.desc_tv.setText(list.get(position).getDescr());
             //点击收藏
@@ -95,11 +97,7 @@ public class FilmDetailedInfoAdapter extends Adapter<FilmDetailedInfoAdapter.Vie
                 }
             });
         }else{
-            if (position==1){
-                holder.title_rl.setVisibility(View.VISIBLE);
-            }else{
-                holder.title_rl.setVisibility(View.GONE);
-            }
+
             x.image().bind(holder.imageView, list.get(position).getThumb(), XUtils.getInstance().getImageOptions(activity));
             holder.title_tv.setText(list.get(position).getTitle());
             holder.time_tv.setText(list.get(position).getTimeShow());
@@ -128,7 +126,6 @@ public class FilmDetailedInfoAdapter extends Adapter<FilmDetailedInfoAdapter.Vie
         private TextView desc_tv;
         private TextView count_tv;
         private ImageButton collect_ib,share_ib;
-        private RelativeLayout title_rl;
         private OnItemClickListener onItemClickListener;
 
         public ViewHolder(View itemView, OnItemClickListener onItemClickListener) {
@@ -137,7 +134,7 @@ public class FilmDetailedInfoAdapter extends Adapter<FilmDetailedInfoAdapter.Vie
                 title_tv = (TextView) itemView.findViewById(R.id.title_tv);
                 time_tv = (TextView) itemView.findViewById(R.id.time_tv);
                 desc_tv = (TextView) itemView.findViewById(R.id.desc_tv);
-
+                count_tv = (TextView) itemView.findViewById(R.id.count_tv);
                 collect_ib = (ImageButton) itemView.findViewById(R.id.collect_ib);
                 share_ib = (ImageButton) itemView.findViewById(R.id.share_ib);
             }else {
@@ -146,7 +143,6 @@ public class FilmDetailedInfoAdapter extends Adapter<FilmDetailedInfoAdapter.Vie
                 imageView = (ImageView) itemView.findViewById(R.id.imageView);
                 title_tv = (TextView) itemView.findViewById(R.id.title_tv);
                 time_tv = (TextView) itemView.findViewById(R.id.time_tv);
-                title_rl = (RelativeLayout) itemView.findViewById(R.id.title_rl);
                 desc_tv = (TextView) itemView.findViewById(R.id.desc_tv);
             }
 

@@ -59,9 +59,7 @@ public class SetNameWithPasswordActivity extends BaseActivity {
     private View mLoginFormView;
     private Activity activity = SetNameWithPasswordActivity.this;
     private TextView findPassword_tv;
-    private ImageView back_iv;
-    private TextView title_tv;
-    private TextView right_tv;
+
 
     private String phone;
     private String flag;
@@ -75,10 +73,8 @@ public class SetNameWithPasswordActivity extends BaseActivity {
     }
 
     @Override
-    public void initTopView() {
-
-        title_tv = (TextView) findViewById(R.id.title_tv);
-        title_tv.setText(R.string.set_name_password);
+    public void initTopView(String title) {
+        super.initTopView("填写昵称和密码");
 
     }
 
@@ -103,13 +99,6 @@ public class SetNameWithPasswordActivity extends BaseActivity {
             public void onClick(View view) {
                 progressDialog.show();
                 attemptLogin();
-            }
-        });
-        back_iv = (ImageView) findViewById(R.id.back_iv);
-        back_iv.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
             }
         });
     }

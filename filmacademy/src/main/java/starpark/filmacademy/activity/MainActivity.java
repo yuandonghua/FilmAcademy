@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -48,10 +49,14 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void initTopView() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+    public void initTopView(String title) {
+        super.initTopView(title);
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar!=null){
+            supportActionBar.setDisplayHomeAsUpEnabled(false);
+            supportActionBar.setDisplayShowTitleEnabled(true);
+            supportActionBar.setTitle("童星电影学院");
+        }
     }
 
     @Override
@@ -81,13 +86,11 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initData() {
         if (ManageUserDataUtil.getInstance().getUserId(activity) == "") {
-            startActivity(new Intent(activity,LoginActivity.class));
+            startActivity(new Intent(activity, LoginActivity.class));
         }
 
 
     }
-
-
 
 
 }

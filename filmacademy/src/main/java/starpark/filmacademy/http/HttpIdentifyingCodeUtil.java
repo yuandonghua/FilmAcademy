@@ -11,10 +11,8 @@ public class HttpIdentifyingCodeUtil {
     public static final int GETRESCOURSELIST_S = 31;
     public static final int RESCOURSEDETAIL_E = 30;
     public static final int RESCOURSEDETAIL_S = 29;
-    //补充公司股东信息成功
-    public static final int SUPPLEMENTARY_SHAREHOLDER_S = 28;
-    //补充公司股东信息失败
-    public static final int SUPPLEMENTARY_SHAREHOLDER_F = 27;
+    public static final int RESREPOSITIST_E = 28;
+    public static final int RESREPOSITIST_S = 27;
     //补充公司法人信息成功
     public static final int SUPPLEMENTARY_JURIDICAL_PERSON_S = 26;
     //补充公司法人信息失败

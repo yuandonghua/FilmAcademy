@@ -21,14 +21,14 @@ public class HttpUrlUtil {
      * 修改密码
      */
     public static final String MIDIFY_PASSWORD = SERVER + "/pwdResetWt.json";
-    /**
-     * 修改手机号
-     */
-    public static final String MIDIFY_PHONE = SERVER + "/contactWayUpdWt.json";
+    //课程组详情
+    public static final String RESGROUPCOURSELIST = SERVER + "/resGroupCourseList.json";
     //课程详情
     public static final String RESCOURSEDETAIL = SERVER + "/resCourseDetail.json";
     //课程组分类
     public static final String RESGROUPLIST = SERVER + "/resGroupList.json";
     //课程列表
     public static final String RESCOURSELIST = SERVER + "/resCourseList.json";
+    //资源列表
+    public static final String RESREPOSITIST = SERVER + "/resRepositist.json";
 }

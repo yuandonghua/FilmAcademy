@@ -1,6 +1,7 @@
 package starpark.filmacademy.activity;
 
 import android.graphics.Bitmap;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -26,20 +27,17 @@ public class PlayFilmActivity extends BaseActivity {
     @ViewInject(R.id.webView)
     private WebView webView;
     private String url="";
-    private String title="";
+    private String filmTitle="";
 
     @Override
     public void receiveIntentData() {
         url=getIntent().getStringExtra("url");
-        title=getIntent().getStringExtra("title");
-
+        filmTitle=getIntent().getStringExtra("title");
     }
 
     @Override
-    public void initTopView() {
-        hideBar(false);
-        TextView title_tv= (TextView) findViewById(R.id.title_tv);
-        title_tv.setText(title);
+    public void initTopView(String title) {
+       super.initTopView(filmTitle);
     }
 
     @Override
@@ -95,13 +93,7 @@ public class PlayFilmActivity extends BaseActivity {
 
     @Override
     public void initListener() {
-        ImageView back_iv= (ImageView) findViewById(R.id.back_iv);
-        back_iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+
     }
 
     @Override

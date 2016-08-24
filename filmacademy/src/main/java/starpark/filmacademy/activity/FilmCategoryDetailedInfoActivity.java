@@ -6,17 +6,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import org.xutils.common.util.LogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
@@ -24,21 +20,22 @@ import org.xutils.x;
 import java.util.ArrayList;
 
 import starpark.filmacademy.R;
+import starpark.filmacademy.adapter.FilmCategoryDetailedInfoAdapter;
 import starpark.filmacademy.adapter.FilmDetailedInfoAdapter;
-import starpark.filmacademy.adapter.FilmListAdapter;
 import starpark.filmacademy.data.Film;
 import starpark.filmacademy.http.FilmDataHttp;
 import starpark.filmacademy.http.HttpIdentifyingCodeUtil;
 import starpark.filmacademy.listener.OnItemClickListener;
+import starpark.filmacademy.utils.ManageUserDataUtil;
 import starpark.filmacademy.utils.XUtils;
 import starpark.filmacademy.view.recyclerview.HorizontalDividerItemDecoration;
 
 /**
- * @description:电影详情界面
- * @author:袁东华 created at 2016/8/23 0023 下午 2:33
+ * @description:电影分类的详情界面
+ * @author:袁东华 created at 2016/8/24 0024 上午 11:44
  */
-@ContentView(R.layout.activity_filmdetailedinfo)
-public class FilmDetailedInfoActivity extends BaseActivity {
+@ContentView(R.layout.activity_filmdcategoryetailedinfo)
+public class FilmCategoryDetailedInfoActivity extends BaseActivity {
     @ViewInject(R.id.header_iv)
     private ImageView header_iv;
     @ViewInject(R.id.toolbar_layout)
@@ -48,12 +45,12 @@ public class FilmDetailedInfoActivity extends BaseActivity {
     @ViewInject(R.id.fab)
     private FloatingActionButton fab;
     private String course_id = "";
-    private FilmDetailedInfoAdapter filmDetailedInfoAdapter;
+    private FilmCategoryDetailedInfoAdapter filmCategoryDetailedInfoAdapter;
     private ArrayList<Film> list = new ArrayList<>();
 
     @Override
     public void initTopView(String title) {
-      super.initTopView(title);
+        super.initTopView(title);
 
         toolbar_layout.setTitle(title);
     }
@@ -72,17 +69,18 @@ public class FilmDetailedInfoActivity extends BaseActivity {
                 .size(activity.getResources().getDimensionPixelSize(
                         R.dimen.divider_2dp))
                 .build());
-        filmDetailedInfoAdapter = new FilmDetailedInfoAdapter(activity);
-        View headerView = LayoutInflater.from(activity).inflate(R.layout.header_filmdetailedinfo, recyclerView, false);
-        filmDetailedInfoAdapter.setHeaderView(headerView);
-        recyclerView.setAdapter(filmDetailedInfoAdapter);
+        filmCategoryDetailedInfoAdapter = new FilmCategoryDetailedInfoAdapter(activity);
+        View headerView = LayoutInflater.from(activity).inflate(R.layout.header_filmcategorydetailedinfo, recyclerView, false);
+        filmCategoryDetailedInfoAdapter.setHeaderView(headerView);
+        recyclerView.setAdapter(filmCategoryDetailedInfoAdapter);
         //点击条目
-        filmDetailedInfoAdapter.setOnItemClickListener(new OnItemClickListener() {
+        filmCategoryDetailedInfoAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (position!=0){
-                    Intent intent=new Intent(activity,FilmDetailedInfoActivity.class);
-                    intent.putExtra("course_id",list.get(position).getId());
+                if (position != 0) {
+                    Intent intent = new Intent(activity, PlayFilmActivity.class);
+                    intent.putExtra("url", list.get(position).getUrl());
+                    intent.putExtra("title", list.get(position).getTitle());
                     startActivity(intent);
                 }
 
@@ -111,7 +109,8 @@ public class FilmDetailedInfoActivity extends BaseActivity {
     @Override
     public void initData() {
         //获取课程详情
-        FilmDataHttp.getInstance().getResCourseDetail(course_id, handler,
+        FilmDataHttp.getInstance().getResGroupCourseList(ManageUserDataUtil.getInstance().getUserId(activity),
+                course_id, handler,
                 HttpIdentifyingCodeUtil.RESCOURSEDETAIL_S, HttpIdentifyingCodeUtil.RESCOURSEDETAIL_E);
     }
 
@@ -130,7 +129,7 @@ public class FilmDetailedInfoActivity extends BaseActivity {
                     Bundle data = msg.getData();
                     if (data != null) {
                         list = data.getParcelableArrayList("list");
-                        filmDetailedInfoAdapter.setList(list);
+                        filmCategoryDetailedInfoAdapter.setList(list);
                         if (list != null && list.size() > 0) {
 
                             x.image().bind(header_iv, list.get(0).getThumb(), XUtils.getInstance().getImageOptions(activity));

@@ -1,7 +1,6 @@
 package starpark.filmacademy.adapter;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.view.LayoutInflater;
@@ -9,30 +8,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-
-import org.xutils.common.util.LogUtil;
 import org.xutils.x;
 
 import java.util.ArrayList;
 
 import starpark.filmacademy.R;
-import starpark.filmacademy.activity.FilmDetailedInfoActivity;
 import starpark.filmacademy.data.Film;
 import starpark.filmacademy.listener.OnItemClickListener;
 import starpark.filmacademy.utils.XUtils;
-
 /**
- * @description:电影列表适配器
- * @author:袁东华 created at 2016/8/22 0022 下午 2:44
+ *@description:电影资源下载列表适配器
+ *@author:袁东华
+ *created at 2016/8/24 0024 下午 3:10
  */
-public class FilmListAdapter extends Adapter<FilmListAdapter.ViewHolder> {
+public class FilmResourceListAdapter extends Adapter<FilmResourceListAdapter.ViewHolder> {
     private OnItemClickListener mOnItemClickListener;
     private Activity activity;
     private ArrayList<Film> list;
 
-    public FilmListAdapter(Activity activity) {
+    public FilmResourceListAdapter(Activity activity) {
         this.activity = activity;
 
     }
@@ -45,7 +40,7 @@ public class FilmListAdapter extends Adapter<FilmListAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewHolder viewHolder = null;
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_filmlist, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_filmresourcelist, parent, false);
         viewHolder = new ViewHolder(view, mOnItemClickListener);
         return viewHolder;
     }
@@ -54,8 +49,8 @@ public class FilmListAdapter extends Adapter<FilmListAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, final int position) {
         x.image().bind(holder.imageView,list.get(position).getThumb(), XUtils.getInstance().getImageOptions(activity));
         holder.title_tv.setText(list.get(position).getTitle());
-        holder.time_tv.setText(list.get(position).getAddTimeShow());
-
+        holder.desc_tv.setText(list.get(position).getDescr());
+        holder.download_tv.setText(list.get(position).getCount()+"M");
     }
 
     @Override
@@ -66,8 +61,8 @@ public class FilmListAdapter extends Adapter<FilmListAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView imageView;
         private TextView title_tv;
-        private TextView time_tv;
-
+        private TextView download_tv;
+        private TextView desc_tv;
         private OnItemClickListener onItemClickListener;
 
         public ViewHolder(View itemView, OnItemClickListener onItemClickListener) {
@@ -76,7 +71,8 @@ public class FilmListAdapter extends Adapter<FilmListAdapter.ViewHolder> {
             itemView.setOnClickListener(this);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
             title_tv = (TextView) itemView.findViewById(R.id.title_tv);
-            time_tv = (TextView) itemView.findViewById(R.id.time_tv);
+            download_tv = (TextView) itemView.findViewById(R.id.download_tv);
+            desc_tv = (TextView) itemView.findViewById(R.id.desc_tv);
         }
 
         @Override

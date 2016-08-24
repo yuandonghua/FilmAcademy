@@ -20,10 +20,10 @@ import android.widget.Toast;
 import org.xutils.view.annotation.ContentView;
 
 import starpark.filmacademy.R;
+
 /**
- *@description:填写手机号界面
- *@author:袁东华
- *created at 2016/8/22 0022 下午 3:59
+ * @description:填写手机号界面
+ * @author:袁东华 created at 2016/8/22 0022 下午 3:59
  */
 @ContentView(R.layout.activity_regist)
 public class WritePhoneActivity extends BaseActivity {
@@ -41,26 +41,21 @@ public class WritePhoneActivity extends BaseActivity {
     private View mProgressView;
     private View mLoginFormView;
     private TextView findPassword_tv;
-    private ImageView back_iv;
-    private TextView title_tv;
-    private TextView right_tv;
     private String flag;
 
     @Override
-    public void receiveIntentData()  {
+    public void receiveIntentData() {
         flag = getIntent().getStringExtra("flag");
     }
 
     @Override
-    public void initTopView()  {
+    public void initTopView(String title) {
+        super.initTopView("填写手机号");
 
-
-        title_tv = (TextView) findViewById(R.id.title_tv);
-        title_tv.setText(R.string.title_phone);
     }
 
     @Override
-    public void initView()  {
+    public void initView() {
 
         mPhoneView = (AutoCompleteTextView) findViewById(R.id.phone_tv);
 
@@ -70,15 +65,7 @@ public class WritePhoneActivity extends BaseActivity {
     }
 
     @Override
-    public void initListener()  {
-        ImageView back_iv = (ImageView) findViewById(R.id.back_iv);
-        //点击返回按钮
-        back_iv.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+    public void initListener() {
         Button next_btn = (Button) findViewById(R.id.next_btn);
         //点击下一步
         next_btn.setOnClickListener(new OnClickListener() {
@@ -90,7 +77,7 @@ public class WritePhoneActivity extends BaseActivity {
     }
 
     @Override
-    public void initData()  {
+    public void initData() {
 
     }
 

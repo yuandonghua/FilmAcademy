@@ -8,13 +8,25 @@
         <item name="colorAccent">@color/colorAccent</item>
         <!--初始化界面时隐藏输入法-->
         <item name="android:windowSoftInputMode">stateHidden</item>
+        <!--&lt;!&ndash; Toolbar Theme / Apply white arrow &ndash;&gt;-->
+        <!--<item name="colorControlNormal">@android:color/white</item>-->
+        <!--&lt;!&ndash;Navigation icon颜色设置&ndash;&gt;-->
+        <!--<item name="drawerArrowStyle">@style/AppTheme.MyDrawerArrowStyle</item>-->
     </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
+    </style>
+    <!--加入一個新的 navigation drarwer 的風格-->
+    <style name="AppTheme.MyDrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <!--將 spinBars 屬性設定為 false-->
+        <item name="spinBars">false</item>
+        <!--設定 drawer arrow 的顏色-->
+        <item name="color">@android:color/white</item>
+    </style>
     <style name="Translucent_NoTitle" parent="android:style/Theme.Dialog">
         <item name="android:windowNoTitle">false</item>
         <item name="android:windowBackground">@color/transparent</item>

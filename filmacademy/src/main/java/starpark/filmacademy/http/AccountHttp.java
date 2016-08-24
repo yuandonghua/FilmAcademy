@@ -18,60 +18,6 @@ public class AccountHttp {
 
 
     /**
-     * 修改手机号
-     *
-     * @param user_id 用户id
-     * @param mobile  新手机号
-     * @param handler 接收结果
-     * @param success 成功标识
-     * @param error   错误标识
-     */
-    public void modifyPhone(String user_id, String mobile, final Handler handler, final int success, final int error) {
-        RequestParams params = new RequestParams(HttpUrlUtil.MIDIFY_PHONE);
-        params.addBodyParameter("user_id", user_id);
-        params.addBodyParameter("mobile", mobile);
-        x.http().get(params, new Callback.CommonCallback<JSONObject>() {
-
-            @Override
-            public void onSuccess(JSONObject result) {
-                try {
-                    Message msg = new Message();
-                    Bundle data = new Bundle();
-                    msg.setData(data);
-                    String message = result.optString("message");
-                    if ("success".equals(message)) {
-                        msg.what = success;
-                    } else {
-                        data.putString("message", message);
-                        msg.what = error;
-
-                    }
-                    handler.sendMessage(msg);
-                } catch (Exception e) {
-
-                }
-
-
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-        });
-    }
-
-    /**
      * 修改密码
      *
      * @param user_id 用户id

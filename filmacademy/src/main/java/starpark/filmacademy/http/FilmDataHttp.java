@@ -22,6 +22,180 @@ public class FilmDataHttp {
     /**
      * 获取课程列表
      *
+     * @param user_id 用户id
+     * @param handler 接收结果
+     * @param success 成功标识
+     * @param error   错误标识
+     */
+    public void getResRepositist(String user_id, final Handler handler, final int success, final int error) {
+        RequestParams params = new RequestParams(HttpUrlUtil.RESREPOSITIST);
+        params.addBodyParameter("user_id", user_id);
+        x.http().get(params, new Callback.CommonCallback<JSONObject>() {
+
+            @Override
+            public void onSuccess(JSONObject result) {
+
+                try {
+                    Message msg = new Message();
+                    Bundle data = new Bundle();
+                    msg.setData(data);
+                    String message = result.optString("message");
+                    if ("success".equals(message)) {
+                        msg.what = success;
+                        if (!result.isNull("info")) {
+                            JSONObject info = result.getJSONObject("info");
+                            if (!info.isNull("list")) {
+                                JSONArray list = info.getJSONArray("list");
+                                ArrayList<Film> filmList = new ArrayList<Film>();
+
+                                for (int i = 0; i < list.length(); i++) {
+                                    JSONObject obji = list.getJSONObject(i);
+                                    Film film = new Film();
+                                    film.setId(obji.optString("id"));
+                                    film.setTitle(obji.optString("name"));
+                                    film.setDescr(obji.optString("descr"));
+                                    film.setUrl(obji.optString("url"));
+                                    film.setAddTimeShow(obji.optString("addTimeShow"));
+                                    film.setSort(obji.optString("sort"));
+                                    film.setThumb(HttpUrlUtil.SERVER_IMAGE + obji.optString("path"));
+                                    film.setCount(obji.optString("size"));
+                                    film.setAuth(obji.optString("auth"));
+                                    film.setCanShow(obji.optString("canShow"));
+                                    if (!obji.isNull("resRepCls")){
+                                        JSONObject resRepCls=obji.getJSONObject("resRepCls");
+
+                                        film.setThumb(HttpUrlUtil.SERVER_IMAGE + resRepCls.optString("icon"));
+                                    }
+                                    filmList.add(film);
+                                }
+                                data.putParcelableArrayList("list", filmList);
+                            }
+                        }
+
+                    } else {
+                        data.putString("message", message);
+                        msg.what = error;
+
+                    }
+                    handler.sendMessage(msg);
+                } catch (Exception e) {
+
+                }
+
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+    /**
+     * 获取课程分类详情
+     *
+     * @param handler   接收结果
+     * @param success   成功标识
+     * @param error     错误标识
+     */
+    public void getResGroupCourseList(String user_id,String group_id, final Handler handler, final int success, final int error) {
+        RequestParams params = new RequestParams(HttpUrlUtil.RESGROUPCOURSELIST);
+        params.addBodyParameter("group_id", group_id);
+        params.addBodyParameter("user_id", user_id);
+        x.http().get(params, new Callback.CommonCallback<JSONObject>() {
+
+            @Override
+            public void onSuccess(JSONObject result) {
+
+                try {
+                    Message msg = new Message();
+                    Bundle data = new Bundle();
+                    msg.setData(data);
+                    String message = result.optString("message");
+                    if ("success".equals(message)) {
+                        msg.what = success;
+                        if (!result.isNull("info")) {
+                            JSONObject info = result.getJSONObject("info");
+                            ArrayList<Film> list=new ArrayList<Film>();
+                            if (!info.isNull("group")) {
+                                JSONObject course = info.getJSONObject("group");
+
+                                Film film = new Film();
+                                film.setId(course.optString("id"));
+                                film.setTitle(course.optString("title"));
+                                film.setDescr(course.optString("descr"));
+                                film.setTimeShow(course.optString("totalTimeShow"));
+                                film.setCount(course.optString("cnt"));
+                                film.setThumb(HttpUrlUtil.SERVER_IMAGE + course.optString("titlePic"));
+
+                                list.add(0,film);
+                            }
+                            if (!info.isNull("courseList")) {
+                                JSONArray others = info.getJSONArray("courseList");
+                                for (int i = 0; i < others.length(); i++) {
+                                    JSONObject obji=others.getJSONObject(i);
+                                    Film film = new Film();
+                                    film.setId(obji.optString("id"));
+                                    film.setTitle(obji.optString("title"));
+                                    film.setDescr(obji.optString("descr"));
+                                    film.setUrl(obji.optString("url"));
+                                    film.setAddTimeShow(obji.optString("addTimeShow"));
+                                    film.setTimeShow(obji.optString("timeShow"));
+                                    film.setSort(obji.optString("sort"));
+                                    film.setThumb(HttpUrlUtil.SERVER_IMAGE + obji.optString("thumb"));
+                                    film.setSfrom(obji.optString("sfrom"));
+                                    film.setDuration(obji.optString("duration"));
+                                    film.setAuth(obji.optString("auth"));
+
+                                    list.add(film);
+                                }
+
+                            }
+                            data.putParcelableArrayList("list",list);
+                        }
+
+                    } else {
+                        data.putString("message", message);
+                        msg.what = error;
+
+                    }
+                    handler.sendMessage(msg);
+                } catch (Exception e) {
+
+                }
+
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+    /**
+     * 获取课程详情
+     *
      * @param course_id 课程id
      * @param handler   接收结果
      * @param success   成功标识
@@ -124,8 +298,9 @@ public class FilmDataHttp {
      * @param success 成功标识
      * @param error   错误标识
      */
-    public void getResGroupList(final Handler handler, final int success, final int error) {
+    public void getResGroupList(String user_id,final Handler handler, final int success, final int error) {
         RequestParams params = new RequestParams(HttpUrlUtil.RESGROUPLIST);
+        params.addBodyParameter("user_id", user_id);
         x.http().get(params, new Callback.CommonCallback<JSONObject>() {
 
             @Override
@@ -148,7 +323,7 @@ public class FilmDataHttp {
                                 film.setId(obji.optString("id"));
                                 film.setTitle(obji.optString("title"));
                                 film.setDescr(obji.optString("descr"));
-                                film.setAddTimeShow(obji.optString("totalTime"));
+                                film.setTimeShow(obji.optString("totalTimeShow"));
                                 film.setCount(obji.optString("cnt"));
                                 film.setThumb(HttpUrlUtil.SERVER_IMAGE + obji.optString("titlePic"));
 

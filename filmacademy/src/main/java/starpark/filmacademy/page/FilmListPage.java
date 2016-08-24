@@ -53,7 +53,9 @@ public class FilmListPage {
         return view;
     }
 
-    private void initData() {
+
+
+    public void initData() {
         if (ManageUserDataUtil.getInstance().getUserId(activity) != "") {
             //获取电影列表
             FilmDataHttp.getInstance().getResCourseList(ManageUserDataUtil.getInstance().getUserId(activity),
@@ -80,7 +82,9 @@ public class FilmListPage {
         filmListAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                LogUtil.e("点击----");
+                Intent intent=new Intent(activity, FilmDetailedInfoActivity.class);
+                intent.putExtra("course_id",list.get(position).getId());
+                activity.startActivity(intent);
 
             }
         });
@@ -101,7 +105,7 @@ public class FilmListPage {
                 case HttpIdentifyingCodeUtil.GETRESCOURSELIST_S:
                     Bundle data = msg.getData();
                     if (data != null) {
-                        list=data.getParcelableArrayList("list");
+                        list = data.getParcelableArrayList("list");
                         filmListAdapter.setList(list);
                     }
 
@@ -117,6 +121,7 @@ public class FilmListPage {
             }
         }
     };
+
     public static FilmListPage getInstance() {
         if (instance == null) {
             synchronized (FilmListPage.class) {
@@ -128,4 +133,5 @@ public class FilmListPage {
 
         return instance;
     }
+
 }

@@ -1,7 +1,15 @@
 package starpark.filmacademy.page;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
+import android.widget.TextView;
+
+import starpark.filmacademy.R;
+import starpark.filmacademy.activity.CollectionActivity;
+import starpark.filmacademy.activity.FeedbackActivity;
+import starpark.filmacademy.activity.HistoryActivity;
+import starpark.filmacademy.activity.SettingActivity;
 
 /**
  * @description:个人中心界面
@@ -37,8 +45,38 @@ public class MePage {
     }
 
     private void initView() {
-
-
+        TextView collection_tv = (TextView) view.findViewById(R.id.collection_tv);
+        //点击收藏夹
+        collection_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.startActivity(new Intent(activity, CollectionActivity.class));
+            }
+        });
+        TextView history_tv = (TextView) view.findViewById(R.id.history_tv);
+        //点击历史记录
+        history_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.startActivity(new Intent(activity, HistoryActivity.class));
+            }
+        });
+        TextView setting_tv = (TextView) view.findViewById(R.id.setting_tv);
+        //点击设置
+        setting_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.startActivity(new Intent(activity, SettingActivity.class));
+            }
+        });
+        TextView feedback_tv = (TextView) view.findViewById(R.id.feedback_tv);
+        //点击反馈
+        feedback_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.startActivity(new Intent(activity, FeedbackActivity.class));
+            }
+        });
     }
 
     public static MePage getInstance() {

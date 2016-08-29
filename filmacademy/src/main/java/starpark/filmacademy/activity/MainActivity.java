@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -43,9 +44,9 @@ public class MainActivity extends BaseActivity {
 
     private MainPagerAdapter mainPagerAdapter;
 
-
     @Override
-    public void receiveIntentData() {
+    public void setCheckLogin(boolean checkLogin) {
+        super.setCheckLogin(true);
     }
 
     @Override
@@ -85,13 +86,14 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        if (ManageUserDataUtil.getInstance().getUserId(activity) == "") {
-            startActivity(new Intent(activity, LoginActivity.class));
-        }
+
 
 
     }
 
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return super.onKeyDown(keyCode, event);
+    }
 }
 

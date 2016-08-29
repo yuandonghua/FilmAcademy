@@ -54,7 +54,7 @@ public class FilmListAdapter extends Adapter<FilmListAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, final int position) {
         x.image().bind(holder.imageView,list.get(position).getThumb(), XUtils.getInstance().getImageOptions(activity));
         holder.title_tv.setText(list.get(position).getTitle());
-        holder.time_tv.setText(list.get(position).getAddTimeShow());
+        holder.time_tv.setText(list.get(position).getTimeShow());
 
     }
 

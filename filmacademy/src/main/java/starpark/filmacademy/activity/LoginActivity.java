@@ -1,6 +1,5 @@
 package starpark.filmacademy.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,17 +13,17 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import org.xutils.common.util.LogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
 import starpark.filmacademy.R;
-import starpark.filmacademy.http.AccountHttp;
 import starpark.filmacademy.http.HttpIdentifyingCodeUtil;
+import starpark.filmacademy.http.UserDataHttp;
 import starpark.filmacademy.utils.MD5Util;
 import starpark.filmacademy.utils.SharedPreferencesUtil;
 
@@ -35,18 +34,6 @@ import starpark.filmacademy.utils.SharedPreferencesUtil;
 @ContentView(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {
 
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
-    private static final int REQUEST_READ_CONTACTS = 0;
-
-    /**
-     * A dummy authentication store containing known user phones and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "18801123830:123456"
-    };
 
     //用户名输入框
     @ViewInject(R.id.phone_et)
@@ -57,6 +44,7 @@ public class LoginActivity extends BaseActivity {
     private View mProgressView;
     private View mLoginFormView;
     private TextView findPassword_tv;
+
 
 
     @Override
@@ -73,12 +61,15 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void initListener() {
-
+        //点击忘记密码
         findPassword_tv = (TextView) findViewById(R.id.findPassword_tv);
         findPassword_tv.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(activity, "点击了忘记密码", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(activity,WritePhoneActivity.class);
+                intent.putExtra(F,"忘记密码");
+                startActivity(intent);
+                finish();
             }
         });
         password_et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -153,9 +144,10 @@ public class LoginActivity extends BaseActivity {
         } else {
 
 
-            String md5String = MD5Util.getInstance().getMD5String(password);
+            String pwdMD5String = MD5Util.getInstance().getMD5String(password);
+            LogUtil.e("pwdMD5String:"+pwdMD5String);
             //提交登陆数据
-            AccountHttp.getInstance().login(phone, md5String, handler,
+            UserDataHttp.getInstance().login(phone, pwdMD5String, handler,
                     HttpIdentifyingCodeUtil.LOGIN_S, HttpIdentifyingCodeUtil.LOGIN_E);
         }
     }
@@ -187,7 +179,9 @@ public class LoginActivity extends BaseActivity {
                     if (data != null) {
                         String mobile = data.getString("mobile");
                         String id = data.getString("id");
-                        SharedPreferencesUtil.getInstance().setPhone(activity, mobile);
+                        String logname = data.getString("logname");
+                        String role = data.getString("role");
+                        SharedPreferencesUtil.getInstance().setName(activity, logname);
                         SharedPreferencesUtil.getInstance().setId(activity, id);
                         //保存用户名和密码
                         SharedPreferencesUtil.getInstance().setPhone(activity, phone);
@@ -213,14 +207,14 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-     getMenuInflater().inflate(R.menu.menu_login,menu);
+        getMenuInflater().inflate(R.menu.menu_login, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id=item.getItemId();
-        if (id==R.id.action_regist){
+        int id = item.getItemId();
+        if (id == R.id.action_regist) {
             Intent intent = new Intent(activity, WritePhoneActivity.class);
             startActivity(intent);
             finish();

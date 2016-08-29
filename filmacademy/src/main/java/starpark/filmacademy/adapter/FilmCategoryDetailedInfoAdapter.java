@@ -84,18 +84,7 @@ public class FilmCategoryDetailedInfoAdapter extends Adapter<FilmCategoryDetaile
             holder.count_tv.setText(list.get(position).getCount()+"个视频");
             holder.time_tv.setText(list.get(position).getTimeShow());
             holder.desc_tv.setText(list.get(position).getDescr());
-            //点击收藏
-            holder.collect_ib.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                }
-            });
-            //点击分享
-            holder.share_ib.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                }
-            });
+
         }else{
 
             x.image().bind(holder.imageView, list.get(position).getThumb(), XUtils.getInstance().getImageOptions(activity));
@@ -125,7 +114,6 @@ public class FilmCategoryDetailedInfoAdapter extends Adapter<FilmCategoryDetaile
         private TextView time_tv;
         private TextView desc_tv;
         private TextView count_tv;
-        private ImageButton collect_ib,share_ib;
         private OnItemClickListener onItemClickListener;
 
         public ViewHolder(View itemView, OnItemClickListener onItemClickListener) {
@@ -135,8 +123,6 @@ public class FilmCategoryDetailedInfoAdapter extends Adapter<FilmCategoryDetaile
                 time_tv = (TextView) itemView.findViewById(R.id.time_tv);
                 desc_tv = (TextView) itemView.findViewById(R.id.desc_tv);
                 count_tv = (TextView) itemView.findViewById(R.id.count_tv);
-                collect_ib = (ImageButton) itemView.findViewById(R.id.collect_ib);
-                share_ib = (ImageButton) itemView.findViewById(R.id.share_ib);
             }else {
                 this.onItemClickListener = onItemClickListener;
                 itemView.setOnClickListener(this);

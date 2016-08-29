@@ -1,14 +1,58 @@
 package starpark.filmacademy.utils;
 
 import android.app.Activity;
+import android.util.Log;
 
 /**
  * @description:管理用户的一些数据
  * @author:袁东华 created at 2016/7/4 0004 下午 5:53
  */
 public class ManageUserDataUtil {
+    /**
+     * @description:是否是第一次进入app
+     * @author:袁东华 created at 2016/8/29 0029 上午 11:00
+     */
+    public boolean isFirst(Activity activity) {
+
+        return SharedPreferencesUtil.getInstance().getIsFirst(activity);
+    }
+
+    /**
+     * @description:退出登陆
+     * @author:袁东华 created at 2016/8/29 0029 上午 10:26
+     */
+    public void logOff(Activity activity) {
+
+        clearUserInfo(activity);
+    }
+
     private String userId = "";
     private String userName = "";
+    private String userPhone = "";
+    private String userPassword = "";
+
+    public void setUserPassword(Activity activity, String password) {
+        userPassword = password;
+        SharedPreferencesUtil.getInstance().setPassword(activity, userPassword);
+    }
+
+    public String getUserPassword(Activity activity) {
+
+        if ("".equals(userPassword)) {
+            userPassword = SharedPreferencesUtil.getInstance().getPassword(activity);
+        }
+
+        return userPassword;
+    }
+
+    public String getUserPhone(Activity activity) {
+
+        if ("".equals(userPhone)) {
+            userPhone = SharedPreferencesUtil.getInstance().getPhone(activity);
+        }
+
+        return userPhone;
+    }
 
     public String getUserName(Activity activity) {
 
@@ -33,27 +77,22 @@ public class ManageUserDataUtil {
      * @author:袁东华 created at 2016/7/12 0012 上午 9:39
      */
     public boolean isLogin(Activity activity) {
-        String id = SharedPreferencesUtil.getInstance().getId(activity);
-        String name = SharedPreferencesUtil.getInstance().getName(activity);
-        String password = SharedPreferencesUtil.getInstance().getPassword(activity);
-        if (!"".equals(id) && !"".equals(name) && !"".equals(password)) {
+        if (!"".equals(getUserId(activity)) && !"".equals(getUserName(activity)) && !"".equals(getUserPassword(activity))) {
             return true;
         }
         return false;
     }
 
     /**
-     * 清除用户的数据
-     *
-     * @return
+     * @description:清除用户数据
+     * @author:袁东华 created at 2016/8/29 0029 上午 10:26
      */
     public boolean clearUserInfo(Activity activity) {
+        SharedPreferencesUtil.getInstance().clearData(activity);
         userId = "";
-        SharedPreferencesUtil.getInstance().setId(activity, "");
-        SharedPreferencesUtil.getInstance().setName(activity, "");
-        SharedPreferencesUtil.getInstance().setPassword(activity, "");
-        SharedPreferencesUtil.getInstance().setPhone(activity, "");
-        SharedPreferencesUtil.getInstance().setEmail(activity, "");
+        userName = "";
+        userPassword = "";
+        userPhone = "";
         return true;
     }
 

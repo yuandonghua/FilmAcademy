@@ -1,6 +1,9 @@
 package starpark.filmacademy.activity;
 
 import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -15,8 +18,13 @@ import android.widget.VideoView;
 import org.xutils.common.util.LogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
+import org.xutils.x;
 
 import starpark.filmacademy.R;
+import starpark.filmacademy.http.FilmDataHttp;
+import starpark.filmacademy.http.HttpIdentifyingCodeUtil;
+import starpark.filmacademy.utils.ManageUserDataUtil;
+import starpark.filmacademy.utils.XUtils;
 
 /**
  * @description:播放视频界面
@@ -28,11 +36,12 @@ public class PlayFilmActivity extends BaseActivity {
     private WebView webView;
     private String url="";
     private String filmTitle="";
-
+    private String course_id="";
     @Override
     public void receiveIntentData() {
         url=getIntent().getStringExtra("url");
         filmTitle=getIntent().getStringExtra("title");
+        course_id=getIntent().getStringExtra("course_id");
     }
 
     @Override
@@ -89,6 +98,10 @@ public class PlayFilmActivity extends BaseActivity {
             public void onPageFinished(WebView view, String url) {
             }
         });
+        FilmDataHttp.getInstance().getRecCoursePlayHisWt(
+                ManageUserDataUtil.getInstance().getUserId(activity),course_id,handler,
+                HttpIdentifyingCodeUtil.RECCOURSEPLAYHISWT_S,
+                HttpIdentifyingCodeUtil.RECCOURSEPLAYHISWT_E);
     }
 
     @Override
@@ -102,4 +115,33 @@ public class PlayFilmActivity extends BaseActivity {
         super.finish();
 
     }
+
+    public Handler handler = new Handler() {
+        /**
+         * Subclasses must implement this to receive messages.
+         *
+         * @param msg
+         */
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                //获取电影成功
+                case HttpIdentifyingCodeUtil.RECCOURSEPLAYHISWT_S:
+                    Bundle data = msg.getData();
+                    if (data != null) {
+                    }
+
+                    break;
+                //获取电影失败
+                case HttpIdentifyingCodeUtil.RECCOURSEPLAYHISWT_E:
+                    Bundle errorData = msg.getData();
+                    if (errorData != null) {
+                        String message = errorData.getString("message");
+                        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+            }
+        }
+    };
 }

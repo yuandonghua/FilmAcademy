@@ -78,9 +78,10 @@ public class FilmCategoryDetailedInfoActivity extends BaseActivity {
             @Override
             public void onItemClick(View view, int position) {
                 if (position != 0) {
-                    Intent intent = new Intent(activity, PlayFilmActivity.class);
+                    Intent intent = new Intent(activity, FilmDetailedInfoActivity.class);
                     intent.putExtra("url", list.get(position).getUrl());
                     intent.putExtra("title", list.get(position).getTitle());
+                    intent.putExtra("course_id", list.get(position).getId());
                     startActivity(intent);
                 }
 

@@ -14,6 +14,8 @@ public class SDPath {
     public static final String IMAGE=APP+"/image";
     //图片处理过程中缓存图片的路劲
     public static final String IMAGE_CACHE=IMAGE+"/cache";
+    //下载路径
+    public static final String DOWNLOAD=Environment.getExternalStorageDirectory().getAbsolutePath()+"/童星电影学院";
 
 
 

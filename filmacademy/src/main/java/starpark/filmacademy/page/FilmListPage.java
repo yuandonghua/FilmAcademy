@@ -56,14 +56,9 @@ public class FilmListPage {
 
 
     public void initData() {
-        if (ManageUserDataUtil.getInstance().getUserId(activity) != "") {
             //获取电影列表
             FilmDataHttp.getInstance().getResCourseList(ManageUserDataUtil.getInstance().getUserId(activity),
                     handler, HttpIdentifyingCodeUtil.GETRESCOURSELIST_S, HttpIdentifyingCodeUtil.GETRESCOURSELIST_E);
-        } else {
-            //没有用户id
-
-        }
 
     }
 

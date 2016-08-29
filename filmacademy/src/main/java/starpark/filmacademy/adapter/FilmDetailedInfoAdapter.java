@@ -2,6 +2,7 @@ package starpark.filmacademy.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.view.LayoutInflater;
@@ -20,7 +21,10 @@ import java.util.ArrayList;
 import starpark.filmacademy.R;
 import starpark.filmacademy.activity.FilmDetailedInfoActivity;
 import starpark.filmacademy.data.Film;
+import starpark.filmacademy.http.FilmDataHttp;
+import starpark.filmacademy.http.HttpIdentifyingCodeUtil;
 import starpark.filmacademy.listener.OnItemClickListener;
+import starpark.filmacademy.utils.ManageUserDataUtil;
 import starpark.filmacademy.utils.XUtils;
 
 /**
@@ -36,10 +40,11 @@ public class FilmDetailedInfoAdapter extends Adapter<FilmDetailedInfoAdapter.Vie
     private Activity activity;
     private ArrayList<Film> list;
     private View headerView;
+    private Handler handler;
 
-    public FilmDetailedInfoAdapter(Activity activity) {
+    public FilmDetailedInfoAdapter(Activity activity, Handler handler) {
         this.activity = activity;
-
+        this.handler = handler;
     }
 
     public void setList(ArrayList<Film> list) {
@@ -54,9 +59,9 @@ public class FilmDetailedInfoAdapter extends Adapter<FilmDetailedInfoAdapter.Vie
 
     @Override
     public int getItemViewType(int position) {
-        if (position==0){
-            return  TYPE_HEADER;
-        }else{
+        if (position == 0) {
+            return TYPE_HEADER;
+        } else {
             return TYPE_NORMAL;
         }
     }
@@ -64,12 +69,12 @@ public class FilmDetailedInfoAdapter extends Adapter<FilmDetailedInfoAdapter.Vie
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewHolder viewHolder = null;
-        if (viewType==TYPE_HEADER){
-           //加载头部View
+        if (viewType == TYPE_HEADER) {
+            //加载头部View
             viewHolder = new ViewHolder(headerView, mOnItemClickListener);
-        }else if (viewType==TYPE_NORMAL){
+        } else if (viewType == TYPE_NORMAL) {
             //加载推荐视频View
-            View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.item_filmdetailedinfo, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_filmdetailedinfo, parent, false);
             viewHolder = new ViewHolder(view, mOnItemClickListener);
         }
 
@@ -78,14 +83,37 @@ public class FilmDetailedInfoAdapter extends Adapter<FilmDetailedInfoAdapter.Vie
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        if (getItemViewType(position)==TYPE_HEADER){
+        if (getItemViewType(position) == TYPE_HEADER) {
             holder.title_tv.setText(list.get(position).getTitle());
             holder.time_tv.setText(list.get(position).getTimeShow());
             holder.desc_tv.setText(list.get(position).getDescr());
+            if (list.get(position).getHasFavourite() == "true") {
+                holder.collect_ib.setImageResource(R.drawable.ic_collect_selected);
+            }else{
+                holder.collect_ib.setImageResource(R.drawable.ic_collect_unselected);
+            }
             //点击收藏
             holder.collect_ib.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    handler.sendEmptyMessage(0);
+                    if (list.get(position).getHasFavourite() == "true") {
+                        //已收藏,要取消
+                        FilmDataHttp.getInstance().getRecCourseFavoriteDelWt(
+                                ManageUserDataUtil.getInstance().getUserId(activity),
+                                list.get(position).getId(), handler,
+                                HttpIdentifyingCodeUtil.RECCOURSEFAVORITEDELWT_S,
+                                HttpIdentifyingCodeUtil.RECCOURSEFAVORITEDELWT_E);
+                    } else {
+                        //未收藏,要收藏
+                        FilmDataHttp.getInstance().getRecCourseFavoriteAddWt(
+                                ManageUserDataUtil.getInstance().getUserId(activity),
+                                list.get(position).getId(), handler,
+                                HttpIdentifyingCodeUtil.RECCOURSEFAVORITEADDWT_S,
+                                HttpIdentifyingCodeUtil.RECCOURSEFAVORITEADDWT_E);
+                    }
+
+
                 }
             });
             //点击分享
@@ -94,10 +122,10 @@ public class FilmDetailedInfoAdapter extends Adapter<FilmDetailedInfoAdapter.Vie
                 public void onClick(View view) {
                 }
             });
-        }else{
-            if (position==1){
+        } else {
+            if (position == 1) {
                 holder.title_rl.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 holder.title_rl.setVisibility(View.GONE);
             }
             x.image().bind(holder.imageView, list.get(position).getThumb(), XUtils.getInstance().getImageOptions(activity));
@@ -127,20 +155,20 @@ public class FilmDetailedInfoAdapter extends Adapter<FilmDetailedInfoAdapter.Vie
         private TextView time_tv;
         private TextView desc_tv;
         private TextView count_tv;
-        private ImageButton collect_ib,share_ib;
+        private ImageButton collect_ib, share_ib;
         private RelativeLayout title_rl;
         private OnItemClickListener onItemClickListener;
 
         public ViewHolder(View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
-            if (itemView==headerView){
+            if (itemView == headerView) {
                 title_tv = (TextView) itemView.findViewById(R.id.title_tv);
                 time_tv = (TextView) itemView.findViewById(R.id.time_tv);
                 desc_tv = (TextView) itemView.findViewById(R.id.desc_tv);
 
                 collect_ib = (ImageButton) itemView.findViewById(R.id.collect_ib);
                 share_ib = (ImageButton) itemView.findViewById(R.id.share_ib);
-            }else {
+            } else {
                 this.onItemClickListener = onItemClickListener;
                 itemView.setOnClickListener(this);
                 imageView = (ImageView) itemView.findViewById(R.id.imageView);

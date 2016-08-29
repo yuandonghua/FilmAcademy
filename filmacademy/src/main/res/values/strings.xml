@@ -25,4 +25,7 @@
     <string name="being_processed">正在处理,请稍后...</string>
     <string name="regist_success">注册成功</string>
     <string name="action_regist">注册</string>
+    <string name="action_save">保存</string>
+    <string name="action_send">发送</string>
+    <string name="action_logoff">退出登录</string>
 </resources>

@@ -1,17 +1,34 @@
 package starpark.filmacademy.utils;
 
 import android.app.Activity;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 
 
 import org.xutils.image.ImageOptions;
 
 import starpark.filmacademy.R;
 
+import static android.widget.ImageView.ScaleType.*;
+
 /**
  * @description:xutils框架
  * @author:袁东华 created at 2016/7/21 0021 下午 5:14
  */
 public class XUtils {
+    /**
+     *@description:设置图片缩放类型
+     *@author:袁东华
+     *created at 2016/8/29 0029 下午 2:30
+     */
+    public ImageOptions getImageOptions(Activity activity, ImageView.ScaleType type) {
+        ImageOptions imageOptions = new ImageOptions.Builder()
+                .setLoadingDrawableId(R.drawable.bg_loading)
+                .setFailureDrawableId(R.drawable.bg_failure)
+                .setImageScaleType(type)
+                .build();
+        return imageOptions;
+    }
     /**
      * @description:默认缓存
      * @author:袁东华 created at 2016/8/23 0023 上午 10:30

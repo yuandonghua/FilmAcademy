@@ -1,6 +1,10 @@
 package starpark.filmacademy.utils;
 
+import android.widget.Toast;
+
 import org.xutils.common.util.LogUtil;
+
+import starpark.filmacademy.app.App;
 
 /**
  * @description:全局异常处理

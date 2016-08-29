@@ -2,6 +2,7 @@ package starpark.filmacademy.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Build;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import org.xutils.x;
 
 import starpark.filmacademy.R;
+import starpark.filmacademy.utils.ManageUserDataUtil;
 import starpark.filmacademy.view.dialog.ProgressDialog;
 
 /**
@@ -32,6 +34,12 @@ public class BaseActivity extends AppCompatActivity {
     //Intent传递的字符串参数名
     public final String F = "flag";
     public Activity activity = BaseActivity.this;
+
+
+    private boolean checkLogin = false;
+
+
+
     public ProgressDialog progressDialog;
 
     @Override
@@ -41,6 +49,7 @@ public class BaseActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         hideBar(true);
         x.view().inject(this);
+        setCheckLogin(checkLogin);
         receiveIntentData();
         initTopView("");
         initView();
@@ -146,5 +155,23 @@ public class BaseActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    /**
+     * @description:设置是否检查登陆
+     * @author:袁东华 created at 2016/8/29 0029 上午 11:45
+     */
+    public void setCheckLogin(boolean checkLogin) {
+        this.checkLogin = checkLogin;
+
+    }
+    public void checkLogin() {
+        if (!ManageUserDataUtil.getInstance().isLogin(activity) && checkLogin) {
+            startActivity(new Intent(activity, LoginActivity.class));
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkLogin();
     }
 }

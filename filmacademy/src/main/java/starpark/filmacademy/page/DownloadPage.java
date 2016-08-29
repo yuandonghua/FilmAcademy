@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import starpark.filmacademy.R;
@@ -19,8 +20,10 @@ import starpark.filmacademy.adapter.FilmResourceListAdapter;
 import starpark.filmacademy.data.Film;
 import starpark.filmacademy.http.FilmDataHttp;
 import starpark.filmacademy.http.HttpIdentifyingCodeUtil;
+import starpark.filmacademy.http.SDPath;
 import starpark.filmacademy.listener.OnItemClickListener;
 import starpark.filmacademy.utils.ManageUserDataUtil;
+import starpark.filmacademy.view.dialog.ProgressDialog;
 
 /**
  * @description:下载资源界面
@@ -33,7 +36,6 @@ public class DownloadPage {
     private RecyclerView recyclerView;
     private FilmResourceListAdapter filmResourceListAdapter;
     private ArrayList<Film> list;
-
 
     public void start(Activity activity, View view) {
         if (view != null && activity != null && (this.view == null && this.activity == null)) {
@@ -50,16 +52,16 @@ public class DownloadPage {
 
 
     public void initData() {
-        if (ManageUserDataUtil.getInstance().getUserId(activity) != "") {
-            //获取资源列表
-            FilmDataHttp.getInstance().getResRepositist(
-                    ManageUserDataUtil.getInstance().getUserId(activity), handler,
-                    HttpIdentifyingCodeUtil.RESREPOSITIST_S,
-                    HttpIdentifyingCodeUtil.RESREPOSITIST_E);
-        } else {
-            //没有用户id
-
+        File folder = new File(SDPath.DOWNLOAD);
+        if (!folder.exists()) {
+            folder.mkdirs();
         }
+        //获取资源列表
+        FilmDataHttp.getInstance().getResRepositist(
+                ManageUserDataUtil.getInstance().getUserId(activity), handler,
+                HttpIdentifyingCodeUtil.RESREPOSITIST_S,
+                HttpIdentifyingCodeUtil.RESREPOSITIST_E);
+
 
     }
 
@@ -72,7 +74,7 @@ public class DownloadPage {
 //                .size(activity.getResources().getDimensionPixelSize(
 //                        R.dimen.divider_2dp))
 //                .build());
-        filmResourceListAdapter = new FilmResourceListAdapter(activity);
+        filmResourceListAdapter = new FilmResourceListAdapter(activity, handler);
         recyclerView.setAdapter(filmResourceListAdapter);
         //点击条目
         filmResourceListAdapter.setOnItemClickListener(new OnItemClickListener() {
@@ -95,6 +97,19 @@ public class DownloadPage {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
+                case HttpIdentifyingCodeUtil.DOWNLOAD_FILE_S:
+                    Toast.makeText(activity, "下载成功", Toast.LENGTH_SHORT).show();
+                    initData();
+
+                    break;
+                case HttpIdentifyingCodeUtil.DOWNLOAD_FILE_E:
+                    Bundle errorData1 = msg.getData();
+                    if (errorData1 != null) {
+                        String message = errorData1.getString("message");
+                        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    break;
                 //获取电影资源列表成功
                 case HttpIdentifyingCodeUtil.RESREPOSITIST_S:
                     Bundle data = msg.getData();

@@ -9,13 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardCornerRadius="6dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        app:cardElevation="0dp"
-        app:cardUseCompatPadding="true"
         app:cardBackgroundColor="@color/white"
-        app:contentPadding="0dp">
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -27,24 +25,36 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:lines="1"
                 android:textColor="@color/black"
                 android:textSize="16dp" />
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_tv" />
+
+            <TextView
+                android:id="@+id/type_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/title_tv"
-                android:layout_marginLeft="10dp" />
-
-
+                android:layout_marginLeft="10dp"
+                android:layout_toLeftOf="@+id/download_tv"
+                android:layout_toRightOf="@+id/imageView"
+                android:textColor="@color/black_6"
+                android:textSize="14dp" />
             <TextView
                 android:id="@+id/desc_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/title_tv"
-                android:layout_margin="10dp"
+                android:layout_below="@+id/type_tv"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:lines="2"
+                android:layout_toLeftOf="@+id/download_tv"
                 android:layout_toRightOf="@+id/imageView"
                 android:textColor="@color/black_6"
                 android:textSize="14dp" />
@@ -55,10 +65,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_margin="10dp"
                 android:clickable="true"
-                android:gravity="center"
                 android:drawableTop="@mipmap/ic_download_black"
+                android:gravity="center"
                 android:textColor="@color/black_6"
                 android:textSize="12dp" />
         </RelativeLayout>

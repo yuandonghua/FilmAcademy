@@ -13,38 +13,22 @@ public class HttpIdentifyingCodeUtil {
     public static final int RESCOURSEDETAIL_S = 29;
     public static final int RESREPOSITIST_E = 28;
     public static final int RESREPOSITIST_S = 27;
-    //补充公司法人信息成功
-    public static final int SUPPLEMENTARY_JURIDICAL_PERSON_S = 26;
-    //补充公司法人信息失败
-    public static final int SUPPLEMENTARY_JURIDICAL_PERSON_F = 25;
-    //获取管家消息列表成功
-    public static final int GET_MESSAGE_LIST_S = 24;
-    //获取管家消息列表失败
-    public static final int GET_MESSAGE_LIST_F = 23;
-    //获取公司信息成功
-    public static final int GET_COMPANY_INFO_S = 22;
-    //获取公司信息失败
-    public static final int GET_COMPANY_INFO_F = 21;
-    //公司设立失败
-    public static final int CREATE_COMPANY_F = 20;
-    //公司设立成功
-    public static final int CREATE_COMPANY_S = 19;
-    //打开相机,拍摄反面
-    public static final int OPEN_CAMERA_ID_BACK = 18;
-    //打开相机,拍摄正面
-    public static final int OPEN_CAMERA_ID_FRONT = 17;
-    //删除用户地址-失败
-    public static final int DELETE_ADDRESS_F = 16;
-    // 删除用户地址-成功
-    public static final int DELETE_ADDRESS_S = 15;
-    //获取用户地址列表-失败
-    public static final int GET_ADDRESS_LIST_F = 14;
-    // 获取用户地址列表-成功
-    public static final int GET_ADDRESS_LIST_S = 13;
-    //新增地址-失败
-    public static final int ADD_ADDRESS_F = 12;
-    //新增地址-成功
-    public static final int ADD_ADDRESS_S = 11;
+    public static final int SACUSERFAVOURITELIST_E = 26;
+    public static final int SACUSERFAVOURITELIST_S = 25;
+    public static final int RECCOURSEFAVORITEADDWT_E = 24;
+    public static final int RECCOURSEFAVORITEADDWT_S = 23;
+    public static final int RECCOURSEPLAYHISWT_E = 22;
+    public static final int RECCOURSEPLAYHISWT_S = 21;
+    public static final int RECCOURSEFAVORITEDELWT_E = 20;
+    public static final int RECCOURSEFAVORITEDELWT_S = 19;
+    public static final int SACUSERINFOUPDWT_S = 18;
+    public static final int SACUSERINFOUPDWT_E = 17;
+    public static final int SACUSERINFOGET_S = 16;
+    public static final int SACUSERINFOGET_E = 15;
+    public static final int DOWNLOAD_FILE_S = 14;
+    public static final int DOWNLOAD_FILE_E = 13;
+    public static final int SACCOMMENTWT_S = 12;
+    public static final int SACCOMMENTWT_E = 11;
     //修改邮箱-失败
     public static final int MODIFY_EMAIL_F = 10;
     //修改邮箱-成功

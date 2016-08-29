@@ -31,6 +31,11 @@ public class Film implements Parcelable {
     private String count = "";
     private String canShow="";
     private String path="";
+    private String hasFavourite="";
+    private String download="false";
+    private String suffix="";
+    private String fileName="";
+    private String type="";
     public Film() {
     }
 
@@ -49,6 +54,11 @@ public class Film implements Parcelable {
         timeShow = in.readString();
         canShow = in.readString();
         path= in.readString();
+        hasFavourite= in.readString();
+        download= in.readString();
+        suffix= in.readString();
+        fileName=in.readString();
+        type=in.readString();
     }
 
     @Override
@@ -67,6 +77,11 @@ public class Film implements Parcelable {
         dest.writeString(timeShow);
         dest.writeString(canShow);
         dest.writeString(path);
+        dest.writeString(hasFavourite);
+        dest.writeString(download);
+        dest.writeString(suffix);
+        dest.writeString(fileName);
+        dest.writeString(type);
     }
 
     @Override
@@ -196,5 +211,45 @@ public class Film implements Parcelable {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getHasFavourite() {
+        return hasFavourite;
+    }
+
+    public void setHasFavourite(String hasFavourite) {
+        this.hasFavourite = hasFavourite;
+    }
+
+    public String getDownload() {
+        return download;
+    }
+
+    public void setDownload(String download) {
+        this.download = download;
+    }
+
+    public String getSuffix() {
+        return suffix;
+    }
+
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

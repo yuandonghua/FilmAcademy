@@ -105,25 +105,21 @@ public class WriteIdentifyingCodeActivity extends BaseActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            //跳转
-//
-//            if ("修改密码".equals(flag)) {
-//                startActivity(new Intent(activity, SetPasswordActivity.class));
-//                finish();
-//            } else if (ContactInfoActivity.MODIFY_PHONT.equals(flag)) {
-//                //修改手机号流程
-//                String userId = SharedPreferencesUtil.getInstance().getId(activity);
-//                AccountHttp.getInstance().modifyPhone(userId, phone, handler,
-//                        HttpIdentifyingCodeUtil.MODIFY_PHONE_S, HttpIdentifyingCodeUtil.MODIFY_PHONE_F);
-//
-//            } else {
-            //去填写昵称和密码
-            Intent intent = new Intent(activity, SetNameWithPasswordActivity.class);
-            intent.putExtra("phone", phone);
-            intent.putExtra(F, flag);
-            startActivity(intent);
-            finish();
-//            }
+            if ("修改密码".equals(flag) || "忘记密码".equals(flag)) {
+                Intent intent = new Intent(activity, SetPasswordActivity.class);
+                intent.putExtra("phone", phone);
+                intent.putExtra(F, flag);
+                startActivity(intent);
+                finish();
+            } else {
+                //注册流程
+                //去填写昵称和密码
+                Intent intent = new Intent(activity, SetNameWithPasswordActivity.class);
+                intent.putExtra("phone", phone);
+                intent.putExtra(F, flag);
+                startActivity(intent);
+                finish();
+            }
         }
     }
 

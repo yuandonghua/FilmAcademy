@@ -22,10 +22,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:drawableLeft="@mipmap/ic_history_red"
         android:drawablePadding="20dp"
-        android:text="历史记录"
+        android:text="播放历史"
         android:textColor="@color/black"
         android:textSize="18dp" />
 
@@ -36,22 +36,12 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
         android:drawableLeft="@mipmap/ic_setting_red"
-        android:drawablePadding="30dp"
+        android:drawablePadding="20dp"
         android:text="设置"
         android:textColor="@color/black"
         android:textSize="18dp" />
 
-    <TextView
-        android:id="@+id/comment_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="30dp"
-        android:drawableLeft="@mipmap/ic_comment_red"
-        android:drawablePadding="30dp"
-        android:text="去评价"
-        android:textColor="@color/black"
-        android:textSize="18dp" />
+
 
     <TextView
         android:id="@+id/feedback_tv"
@@ -60,7 +50,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
         android:drawableLeft="@mipmap/ic_feedback_red"
-        android:drawablePadding="30dp"
+        android:drawablePadding="20dp"
         android:text="反馈"
         android:textColor="@color/black"
         android:textSize="18dp" />

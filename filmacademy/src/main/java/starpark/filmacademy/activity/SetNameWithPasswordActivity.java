@@ -10,15 +10,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.xutils.view.annotation.ContentView;
 
 import starpark.filmacademy.R;
-import starpark.filmacademy.http.AccountHttp;
 import starpark.filmacademy.http.HttpIdentifyingCodeUtil;
+import starpark.filmacademy.http.UserDataHttp;
 import starpark.filmacademy.utils.MD5Util;
 import starpark.filmacademy.utils.SharedPreferencesUtil;
 
@@ -158,7 +157,7 @@ public class SetNameWithPasswordActivity extends BaseActivity {
         } else {
             String md5String = MD5Util.getInstance().getMD5String(password);
             //提交注册信息
-            AccountHttp.getInstance().regist(name, md5String, phone, handler,
+            UserDataHttp.getInstance().regist(name, md5String, phone, handler,
                     HttpIdentifyingCodeUtil.REGIST_S, HttpIdentifyingCodeUtil.REGIST_E);
         }
     }
@@ -191,6 +190,7 @@ public class SetNameWithPasswordActivity extends BaseActivity {
 
                         Toast.makeText(activity, R.string.regist_success, Toast.LENGTH_SHORT).show();
                         progressDialog.dismiss();
+                        startActivity(new Intent(activity,PersonalDatumActivity.class));
                         finish();
                     }
 

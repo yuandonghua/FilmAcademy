@@ -30,6 +30,7 @@ import starpark.filmacademy.data.Film;
 import starpark.filmacademy.http.FilmDataHttp;
 import starpark.filmacademy.http.HttpIdentifyingCodeUtil;
 import starpark.filmacademy.listener.OnItemClickListener;
+import starpark.filmacademy.utils.ManageUserDataUtil;
 import starpark.filmacademy.utils.XUtils;
 import starpark.filmacademy.view.recyclerview.HorizontalDividerItemDecoration;
 
@@ -72,7 +73,7 @@ public class FilmDetailedInfoActivity extends BaseActivity {
                 .size(activity.getResources().getDimensionPixelSize(
                         R.dimen.divider_2dp))
                 .build());
-        filmDetailedInfoAdapter = new FilmDetailedInfoAdapter(activity);
+        filmDetailedInfoAdapter = new FilmDetailedInfoAdapter(activity,handler);
         View headerView = LayoutInflater.from(activity).inflate(R.layout.header_filmdetailedinfo, recyclerView, false);
         filmDetailedInfoAdapter.setHeaderView(headerView);
         recyclerView.setAdapter(filmDetailedInfoAdapter);
@@ -92,6 +93,7 @@ public class FilmDetailedInfoActivity extends BaseActivity {
 
     @Override
     public void initListener() {
+        //点击播放按钮
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,6 +101,7 @@ public class FilmDetailedInfoActivity extends BaseActivity {
                     Intent intent = new Intent(activity, PlayFilmActivity.class);
                     intent.putExtra("url", list.get(0).getUrl());
                     intent.putExtra("title", list.get(0).getTitle());
+                    intent.putExtra("course_id", list.get(0).getId());
                     startActivity(intent);
 
                 }
@@ -106,13 +109,27 @@ public class FilmDetailedInfoActivity extends BaseActivity {
 //                        .setAction("Action", null).show();
             }
         });
+        //点击头部图片
+        header_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, PlayFilmActivity.class);
+                intent.putExtra("url", list.get(0).getUrl());
+                intent.putExtra("title", list.get(0).getTitle());
+                intent.putExtra("course_id", list.get(0).getId());
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
     public void initData() {
         //获取课程详情
-        FilmDataHttp.getInstance().getResCourseDetail(course_id, handler,
-                HttpIdentifyingCodeUtil.RESCOURSEDETAIL_S, HttpIdentifyingCodeUtil.RESCOURSEDETAIL_E);
+        FilmDataHttp.getInstance().getResCourseDetail(
+                ManageUserDataUtil.getInstance().getUserId(activity),
+                course_id, handler,
+                HttpIdentifyingCodeUtil.RESCOURSEDETAIL_S,
+                HttpIdentifyingCodeUtil.RESCOURSEDETAIL_E);
     }
 
     public Handler handler = new Handler() {
@@ -145,6 +162,45 @@ public class FilmDetailedInfoActivity extends BaseActivity {
                         String message = errorData.getString("message");
                         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
                     }
+                    break;
+                case HttpIdentifyingCodeUtil.RECCOURSEFAVORITEADDWT_S:
+                    progressDialog.dismiss();
+                    Bundle data2=msg.getData();
+                    if (data2!=null){
+                        String message = data2.getString("message");
+                        Toast.makeText(activity, "收藏成功", Toast.LENGTH_SHORT).show();
+                    }
+                    initData();
+                    break;
+                case HttpIdentifyingCodeUtil.RECCOURSEFAVORITEADDWT_E:
+                    progressDialog.dismiss();
+                    Bundle data1=msg.getData();
+                    if (data1!=null){
+                        String message = data1.getString("message");
+                        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+                    }
+                    initData();
+                    break;
+                case HttpIdentifyingCodeUtil.RECCOURSEFAVORITEDELWT_S:
+                    progressDialog.dismiss();
+                    Bundle data3=msg.getData();
+                    if (data3!=null){
+                        String message = data3.getString("message");
+                        Toast.makeText(activity, "取消收藏成功", Toast.LENGTH_SHORT).show();
+                    }
+                    initData();
+                    break;
+                case HttpIdentifyingCodeUtil.RECCOURSEFAVORITEDELWT_E:
+                    progressDialog.dismiss();
+                    Bundle data4=msg.getData();
+                    if (data4!=null){
+                        String message = data4.getString("message");
+                        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+                    }
+                    initData();
+                    break;
+                case 0:
+                    progressDialog.show();
                     break;
             }
         }

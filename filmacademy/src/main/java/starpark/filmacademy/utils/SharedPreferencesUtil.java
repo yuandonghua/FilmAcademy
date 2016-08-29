@@ -22,7 +22,26 @@ public class SharedPreferencesUtil {
         edit.clear();
         edit.commit();
     }
+    /**
+     *设置用户的学校
+     * @param activity
+     */
+    public void setSchool(Activity activity, String school) {
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(SHARED_PREFERENCES_NAME, activity.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putString("user_school", school);
+        edit.commit();
+    }
 
+    /**
+     *获取用户的学校
+     * @param activity
+     * @return 昵称
+     */
+    public String getSchool(Activity activity) {
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(SHARED_PREFERENCES_NAME, activity.MODE_PRIVATE);
+        return sharedPreferences.getString("user_school", "");
+    }
     /**
      * 保存用户的id
      *

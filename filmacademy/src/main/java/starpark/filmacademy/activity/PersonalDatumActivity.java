@@ -10,6 +10,8 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
+import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -57,6 +59,7 @@ public class PersonalDatumActivity extends BaseActivity {
     private Button save_btn;
     @ViewInject(R.id.login_form)
     private ScrollView login_form;
+    private PersonalDatum personalDatum;
 
     @Override
     public void initTopView(String title) {
@@ -106,19 +109,39 @@ public class PersonalDatumActivity extends BaseActivity {
      * @author:袁东华 created at 2016/7/20 0020 下午 5:47
      */
     private void attemptSubmit() {
+        progressDialog.show();
+        name_et.setError(null);
+        school_et.setError(null);
         String name = name_et.getText().toString();
         String school = school_et.getText().toString();
         String clas = class_et.getText().toString();
         String speciality = speciality_et.getText().toString();
         String train = train_et.getText().toString();
         String certificate = certificate_et.getText().toString();
+        boolean cancel = false;
+        View focusView = null;
+        if (TextUtils.isEmpty(name)) {
+            name_et.setError(getString(R.string.error_no_null_required));
+            focusView = name_et;
+            cancel = true;
+        }
+        if (TextUtils.isEmpty(school)) {
+            school_et.setError(getString(R.string.error_no_null_required));
+            focusView = school_et;
+            cancel = true;
+        }
+        if (cancel) {
+            // There was an error; don't attempt login and focus the first
+            // form field with an error.
+            focusView.requestFocus();
+            progressDialog.dismiss();
+        } else {
+            //修改个人资料
+            UserDataHttp.getInstance().modifyPersonalDatum(ManageUserDataUtil.getInstance().getUserId(activity),
+                    name, school, clas, speciality, train, certificate,
+                    handler, HttpIdentifyingCodeUtil.SACUSERINFOUPDWT_S, HttpIdentifyingCodeUtil.SACUSERINFOUPDWT_E);
 
-        progressDialog.show();
-        //修改个人资料
-        UserDataHttp.getInstance().modifyPersonalDatum(ManageUserDataUtil.getInstance().getUserId(activity),
-                name, school, clas, speciality, train, certificate,
-                handler, HttpIdentifyingCodeUtil.SACUSERINFOUPDWT_S, HttpIdentifyingCodeUtil.SACUSERINFOUPDWT_E);
-
+        }
     }
 
     public Handler handler = new Handler() {
@@ -131,7 +154,7 @@ public class PersonalDatumActivity extends BaseActivity {
                 case HttpIdentifyingCodeUtil.SACUSERINFOGET_S:
                     Bundle data1 = msg.getData();
                     if (data1 != null) {
-                        PersonalDatum personalDatum = data1.getParcelable("personalDatum");
+                        personalDatum = data1.getParcelable("personalDatum");
                         if (personalDatum != null) {
                             name_et.setText(personalDatum.getName());
                             school_et.setText(personalDatum.getSchool());
@@ -139,8 +162,8 @@ public class PersonalDatumActivity extends BaseActivity {
                             speciality_et.setText(personalDatum.getSpecialty());
                             train_et.setText(personalDatum.getTrain());
                             certificate_et.setText(personalDatum.getAward());
-
-
+                            ManageUserDataUtil.getInstance().setUserName(activity, personalDatum.getName());
+                            ManageUserDataUtil.getInstance().setUserSchool(activity,personalDatum.getSchool());
                         }
                     }
                     progressDialog.dismiss();
@@ -198,6 +221,38 @@ public class PersonalDatumActivity extends BaseActivity {
             certificate_et.setFocusable(true);
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //点击返回按钮
+        if (item.getItemId() == android.R.id.home) {
+            if (personalDatum != null && !"".equals(personalDatum.getName()) && !"".equals(personalDatum.getSchool())) {
+                finish();
+            } else {
+                Toast.makeText(activity, "请填写资料", Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if (!progressDialog.isShowing()) {
+                if (personalDatum != null && !"".equals(personalDatum.getName()) && !"".equals(personalDatum.getSchool())) {
+                    finish();
+                } else {
+                    Toast.makeText(activity, "请填写资料", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, R.string.being_processed, Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
 

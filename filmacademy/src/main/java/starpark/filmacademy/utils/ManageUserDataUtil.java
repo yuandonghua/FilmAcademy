@@ -8,6 +8,24 @@ import android.util.Log;
  * @author:袁东华 created at 2016/7/4 0004 下午 5:53
  */
 public class ManageUserDataUtil {
+
+    public void setUserName(Activity activity, String name) {
+        userName = name;
+        SharedPreferencesUtil.getInstance().setName(activity, userName);
+    }
+    private String userSchool="";
+    public void setUserSchool(Activity activity, String school) {
+        userSchool = school;
+        SharedPreferencesUtil.getInstance().setSchool(activity, userName);
+    }
+    public String getUserSchool(Activity activity) {
+
+        if ("".equals(userSchool)) {
+            userSchool = SharedPreferencesUtil.getInstance().getSchool(activity);
+        }
+
+        return userSchool;
+    }
     /**
      * @description:是否是第一次进入app
      * @author:袁东华 created at 2016/8/29 0029 上午 11:00

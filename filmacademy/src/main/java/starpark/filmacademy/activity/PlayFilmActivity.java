@@ -1,5 +1,6 @@
 package starpark.filmacademy.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -105,8 +106,12 @@ public class PlayFilmActivity extends BaseActivity {
     }
 
     @Override
-    public void initListener() {
-
+    protected void onResume() {
+        super.onResume();
+        if ("".equals(ManageUserDataUtil.getInstance().getUserName(activity))||
+                "".equals(ManageUserDataUtil.getInstance().getUserSchool(activity))){
+            startActivity(new Intent(activity,PersonalDatumActivity.class));
+        }
     }
 
     @Override

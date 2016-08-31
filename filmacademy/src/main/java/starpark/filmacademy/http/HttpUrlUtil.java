@@ -43,4 +43,6 @@ public class HttpUrlUtil {
     public static final String SACCOMMENTWT = SERVER + "/sacCommentWt.json";
     //忘记密码
     public static final String FORGET_PASSWORD = SERVER + "/pwdResetWt.json";
+    //删除历史记录
+    public static final String RESHISTORYDELWT = SERVER + "/resHistoryDelWt.json";
 }

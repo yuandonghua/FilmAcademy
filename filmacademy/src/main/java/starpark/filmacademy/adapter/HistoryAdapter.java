@@ -25,18 +25,18 @@ import starpark.filmacademy.listener.OnItemClickListener;
 import starpark.filmacademy.listener.OnMoveAndSwipedListener;
 import starpark.filmacademy.utils.ManageUserDataUtil;
 import starpark.filmacademy.utils.XUtils;
-
 /**
- * @description:收藏夹的适配器
- * @author:袁东华 created at 2016/8/25 0025 下午 3:09
+ *@description:历史记录的适配器
+ *@author:袁东华
+ *created at 2016/8/30 0030 下午 2:00
  */
-public class CollectionAdapter extends Adapter<CollectionAdapter.ViewHolder> implements OnMoveAndSwipedListener {
+public class HistoryAdapter extends Adapter<HistoryAdapter.ViewHolder> implements OnMoveAndSwipedListener {
     private OnItemClickListener mOnItemClickListener;
     private Activity activity;
     private ArrayList<Film> list;
     private Handler handler;
 
-    public CollectionAdapter(Activity activity, Handler handler) {
+    public HistoryAdapter(Activity activity, Handler handler) {
         this.activity = activity;
         this.handler = handler;
     }
@@ -99,9 +99,8 @@ public class CollectionAdapter extends Adapter<CollectionAdapter.ViewHolder> imp
     @Override
     public void onItemDelete(int position) {
 
-        FilmDataHttp.getInstance().getRecCourseFavoriteDelWt(
-                ManageUserDataUtil.getInstance().getUserId(activity),
-                list.get(position).getId(), handler,
+        FilmDataHttp.getInstance().resHistoryDelWt(
+                list.get(position).getHistoryId(), handler,
                 HttpIdentifyingCodeUtil.RECCOURSEFAVORITEDELWT_S,
                 HttpIdentifyingCodeUtil.RECCOURSEFAVORITEDELWT_E);
         //删除该条目的数据

@@ -18,7 +18,7 @@ public class PersonalDatum implements Parcelable {
     private String specialty = "";
     private String train = "";
     private String award = "";
-
+    private String password = "";
 
     public PersonalDatum() {
     }
@@ -33,6 +33,7 @@ public class PersonalDatum implements Parcelable {
         specialty = in.readString();
         train = in.readString();
         award = in.readString();
+        password = in.readString();
     }
 
     @Override
@@ -46,6 +47,8 @@ public class PersonalDatum implements Parcelable {
         dest.writeString(specialty);
         dest.writeString(train);
         dest.writeString(award);
+        dest.writeString(password);
+
     }
 
     @Override
@@ -64,6 +67,14 @@ public class PersonalDatum implements Parcelable {
             return new PersonalDatum[size];
         }
     };
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getId() {
         return id;

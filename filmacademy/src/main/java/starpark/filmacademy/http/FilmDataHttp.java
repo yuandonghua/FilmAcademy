@@ -28,6 +28,62 @@ import starpark.filmacademy.data.Film;
  */
 public class FilmDataHttp {
 
+    /**
+     * 删除历史记录
+     * @param his_id
+     * @param handler
+     * @param success
+     * @param error
+     */
+    public void resHistoryDelWt(String his_id, final Handler handler, final int success, final int error) {
+        RequestParams params = new RequestParams(HttpUrlUtil.RESHISTORYDELWT);
+        params.addBodyParameter("his_id", his_id);
+        x.http().get(params, new Callback.CommonCallback<JSONObject>() {
+
+            @Override
+            public void onSuccess(JSONObject result) {
+                try {
+                    Message msg = new Message();
+                    Bundle data = new Bundle();
+                    msg.setData(data);
+                    String message = result.optString("message");
+                    if ("success".equals(message)) {
+                        msg.what = success;
+
+                    } else {
+                        data.putString("message", message);
+                        msg.what = error;
+
+                    }
+                    handler.sendMessage(msg);
+                } catch (Exception e) {
+
+                }
+
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+    /**
+     *@description:下载资源文件
+     *@author:袁东华
+     *created at 2016/8/30 0030 下午 2:01
+     */
     public void downFilmResource(String saveFilePath, String url, final Handler handler, final int success, final int error) {
         RequestParams params = new RequestParams(url);
         params.setSaveFilePath(saveFilePath);
@@ -89,6 +145,7 @@ public class FilmDataHttp {
     public void getResHistoryList(String user_id, final Handler handler, final int success, final int error) {
         RequestParams params = new RequestParams(HttpUrlUtil.RESHISTORYLIST);
         params.addBodyParameter("user_id", user_id);
+
         x.http().get(params, new Callback.CommonCallback<JSONObject>() {
 
             @Override
@@ -107,10 +164,12 @@ public class FilmDataHttp {
 
                             for (int i = 0; i < info.length(); i++) {
                                 JSONObject obji = info.getJSONObject(i);
+
+                                Film film = new Film();
+                                film.setHistoryId(obji.optString("id"));
                                 if (!obji.isNull("resCourse")) {
                                     JSONObject resCourse = obji.getJSONObject("resCourse");
 
-                                    Film film = new Film();
                                     film.setId(resCourse.optString("id"));
                                     film.setTitle(resCourse.optString("title"));
                                     film.setDescr(resCourse.optString("descr"));

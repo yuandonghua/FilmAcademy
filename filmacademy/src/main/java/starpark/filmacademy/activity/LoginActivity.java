@@ -21,7 +21,12 @@ import org.xutils.common.util.LogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import starpark.filmacademy.R;
+import starpark.filmacademy.app.App;
+import starpark.filmacademy.data.PersonalDatum;
 import starpark.filmacademy.http.HttpIdentifyingCodeUtil;
 import starpark.filmacademy.http.UserDataHttp;
 import starpark.filmacademy.utils.MD5Util;
@@ -46,7 +51,6 @@ public class LoginActivity extends BaseActivity {
     private TextView findPassword_tv;
 
 
-
     @Override
     public void initTopView(String title) {
         super.initTopView("登陆");
@@ -66,8 +70,8 @@ public class LoginActivity extends BaseActivity {
         findPassword_tv.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(activity,WritePhoneActivity.class);
-                intent.putExtra(F,"忘记密码");
+                Intent intent = new Intent(activity, WritePhoneActivity.class);
+                intent.putExtra(F, "忘记密码");
                 startActivity(intent);
                 finish();
             }
@@ -145,7 +149,7 @@ public class LoginActivity extends BaseActivity {
 
 
             String pwdMD5String = MD5Util.getInstance().getMD5String(password);
-            LogUtil.e("pwdMD5String:"+pwdMD5String);
+            LogUtil.e("pwdMD5String:" + pwdMD5String);
             //提交登陆数据
             UserDataHttp.getInstance().login(phone, pwdMD5String, handler,
                     HttpIdentifyingCodeUtil.LOGIN_S, HttpIdentifyingCodeUtil.LOGIN_E);
@@ -177,18 +181,19 @@ public class LoginActivity extends BaseActivity {
                 case HttpIdentifyingCodeUtil.LOGIN_S:
                     Bundle data = msg.getData();
                     if (data != null) {
-                        String mobile = data.getString("mobile");
-                        String id = data.getString("id");
-                        String logname = data.getString("logname");
-                        String role = data.getString("role");
-                        SharedPreferencesUtil.getInstance().setName(activity, logname);
-                        SharedPreferencesUtil.getInstance().setId(activity, id);
-                        //保存用户名和密码
-                        SharedPreferencesUtil.getInstance().setPhone(activity, phone);
-                        SharedPreferencesUtil.getInstance().setPassword(activity, password);
-                        Toast.makeText(activity, R.string.login_success, Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
-                        finish();
+                        PersonalDatum personalDatum = data.getParcelable("personalDatum");
+                        if (personalDatum != null) {
+                            SharedPreferencesUtil.getInstance().setName(activity, personalDatum.getName());
+                            SharedPreferencesUtil.getInstance().setId(activity, personalDatum.getId());
+                            SharedPreferencesUtil.getInstance().setPhone(activity, personalDatum.getPhone());
+                            SharedPreferencesUtil.getInstance().setPassword(activity, personalDatum.getPassword());
+                            SharedPreferencesUtil.getInstance().setSchool(activity, personalDatum.getSchool());
+
+                            Toast.makeText(activity, R.string.login_success, Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                            finish();
+                        }
+
                     }
 
                     break;
@@ -224,5 +229,27 @@ public class LoginActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
 
     }
+private long exitTime;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if (!progressDialog.isShowing()) {
+                if (System.currentTimeMillis()-exitTime>1000){
+                    exitTime=System.currentTimeMillis();
+                    Toast.makeText(activity, "双击返回键退出应用", Toast.LENGTH_SHORT).show();
+                }else{
+                    App.exitApp();
+                }
+            } else {
+                Toast.makeText(this, R.string.being_processed, Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+
 }
 

@@ -427,6 +427,7 @@ public class UserDataHttp {
         RequestParams params = new RequestParams(HttpUrlUtil.LOGIN);
         params.addBodyParameter("mobile", mobile);
         params.addBodyParameter("pwd", pwd);
+        LogUtil.d("");
         x.http().get(params, new Callback.CommonCallback<JSONObject>() {
 
             @Override
@@ -437,21 +438,29 @@ public class UserDataHttp {
                     msg.setData(data);
                     String message = result.optString("message");
                     if ("success".equals(message)) {
-                        JSONObject info = result.getJSONObject("info");
-                        JSONObject sacUser = info.getJSONObject("sacUser");
+                        if (!result.isNull("info")){
+                            JSONObject info = result.getJSONObject("info");
+                            if (!info.isNull("sacUser")){
+                                JSONObject sacUser = info.getJSONObject("sacUser");
 
-                        String email = sacUser.optString("email");
-                        String mobile = sacUser.optString("mobile");
-                        String logname = sacUser.optString("logname");
-                        String id = sacUser.optString("id");
+                                PersonalDatum personalDatum = new PersonalDatum();
+                                personalDatum.setId(sacUser.optString("id"));
+                                personalDatum.setName(sacUser.optString("logname"));
+                                personalDatum.setPhone(sacUser.optString("mobile"));
+                                personalDatum.setRole(sacUser.optString("role"));
+                                personalDatum.setSchool(sacUser.optString("school"));
+                                personalDatum.setGrade(sacUser.optString("grade"));
+                                personalDatum.setSpecialty(sacUser.optString("specialty"));
+                                personalDatum.setTrain(sacUser.optString("train"));
+                                personalDatum.setAward(sacUser.optString("award"));
+                                personalDatum.setPassword(sacUser.optString("pwd"));
 
-                        String role = sacUser.optString("role");
-                        data.putString("email", email);
-                        data.putString("mobile", mobile);
-                        data.putString("logname", logname);
-                        data.putString("role", role);
-                        data.putString("id", id);
-                        msg.what = success;
+                                data.putParcelable("personalDatum", personalDatum);
+
+                                msg.what = success;
+                            }
+                        }
+
                     } else {
                         data.putString("message", message);
                         msg.what = error;

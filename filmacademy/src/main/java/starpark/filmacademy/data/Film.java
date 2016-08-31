@@ -36,6 +36,8 @@ public class Film implements Parcelable {
     private String suffix="";
     private String fileName="";
     private String type="";
+    //播放历史记录id
+    private String historyId="";
     public Film() {
     }
 
@@ -59,6 +61,7 @@ public class Film implements Parcelable {
         suffix= in.readString();
         fileName=in.readString();
         type=in.readString();
+        historyId=in.readString();
     }
 
     @Override
@@ -82,6 +85,7 @@ public class Film implements Parcelable {
         dest.writeString(suffix);
         dest.writeString(fileName);
         dest.writeString(type);
+        dest.writeString(historyId);
     }
 
     @Override
@@ -100,6 +104,14 @@ public class Film implements Parcelable {
             return new Film[size];
         }
     };
+
+    public String getHistoryId() {
+        return historyId;
+    }
+
+    public void setHistoryId(String historyId) {
+        this.historyId = historyId;
+    }
 
     public String getId() {
         return id;

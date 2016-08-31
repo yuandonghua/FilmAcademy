@@ -23,6 +23,7 @@ import android.widget.Toast;
 import org.xutils.x;
 
 import starpark.filmacademy.R;
+import starpark.filmacademy.app.App;
 import starpark.filmacademy.utils.ManageUserDataUtil;
 import starpark.filmacademy.view.dialog.ProgressDialog;
 
@@ -45,6 +46,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        App.addActivity(activity);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);// 使得音量键控制媒体声音
         progressDialog = new ProgressDialog(this);
         hideBar(true);

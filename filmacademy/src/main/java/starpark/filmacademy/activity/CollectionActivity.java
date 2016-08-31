@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import starpark.filmacademy.http.FilmDataHttp;
 import starpark.filmacademy.http.HttpIdentifyingCodeUtil;
 import starpark.filmacademy.listener.OnItemClickListener;
 import starpark.filmacademy.utils.ManageUserDataUtil;
+import starpark.filmacademy.view.itemtouch.ItemTouchHelperCallback;
 import starpark.filmacademy.view.recyclerview.HorizontalDividerItemDecoration;
 
 /**
@@ -51,14 +53,15 @@ public class CollectionActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(
-                activity)
-                .color(activity.getResources().getColor(R.color.black_14))
-                .size(activity.getResources().getDimensionPixelSize(
-                        R.dimen.divider_2dp))
-                .build());
-        collectionAdapter = new CollectionAdapter(activity);
+//        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(
+//                activity)
+//                .color(activity.getResources().getColor(R.color.black_14))
+//                .size(activity.getResources().getDimensionPixelSize(
+//                        R.dimen.divider_2dp))
+//                .build());
+        collectionAdapter = new CollectionAdapter(activity,handler);
         recyclerView.setAdapter(collectionAdapter);
         //点击条目
         collectionAdapter.setOnItemClickListener(new OnItemClickListener() {
@@ -70,6 +73,10 @@ public class CollectionActivity extends BaseActivity {
 
             }
         });
+        ItemTouchHelperCallback callback=new ItemTouchHelperCallback(collectionAdapter);
+        ItemTouchHelper itemTouchHelper=new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
     }
 
     @Override

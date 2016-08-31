@@ -17,6 +17,7 @@ import org.xutils.view.annotation.ViewInject;
 
 import starpark.filmacademy.R;
 import starpark.filmacademy.adapter.MainPagerAdapter;
+import starpark.filmacademy.app.App;
 import starpark.filmacademy.http.FilmDataHttp;
 import starpark.filmacademy.http.HttpIdentifyingCodeUtil;
 import starpark.filmacademy.utils.ManageUserDataUtil;
@@ -53,7 +54,7 @@ public class MainActivity extends BaseActivity {
     public void initTopView(String title) {
         super.initTopView(title);
         ActionBar supportActionBar = getSupportActionBar();
-        if (supportActionBar!=null){
+        if (supportActionBar != null) {
             supportActionBar.setDisplayHomeAsUpEnabled(false);
             supportActionBar.setDisplayShowTitleEnabled(true);
             supportActionBar.setTitle("童星电影学院");
@@ -88,11 +89,28 @@ public class MainActivity extends BaseActivity {
     public void initData() {
 
 
-
     }
+
+
+
+    private long exitTime;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if (!progressDialog.isShowing()) {
+                if (System.currentTimeMillis() - exitTime > 1000) {
+                    exitTime = System.currentTimeMillis();
+                    Toast.makeText(activity, "双击返回键退出应用", Toast.LENGTH_SHORT).show();
+                } else {
+                    App.exitApp();
+                }
+            } else {
+                Toast.makeText(this, R.string.being_processed, Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        }
         return super.onKeyDown(keyCode, event);
     }
 }

@@ -99,6 +99,7 @@ public class PlayFilmActivity extends BaseActivity {
             public void onPageFinished(WebView view, String url) {
             }
         });
+        //添加播放记录
         FilmDataHttp.getInstance().getRecCoursePlayHisWt(
                 ManageUserDataUtil.getInstance().getUserId(activity),course_id,handler,
                 HttpIdentifyingCodeUtil.RECCOURSEPLAYHISWT_S,

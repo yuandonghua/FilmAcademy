@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.Toast;
 
@@ -16,11 +17,13 @@ import java.util.ArrayList;
 
 import starpark.filmacademy.R;
 import starpark.filmacademy.adapter.CollectionAdapter;
+import starpark.filmacademy.adapter.HistoryAdapter;
 import starpark.filmacademy.data.Film;
 import starpark.filmacademy.http.FilmDataHttp;
 import starpark.filmacademy.http.HttpIdentifyingCodeUtil;
 import starpark.filmacademy.listener.OnItemClickListener;
 import starpark.filmacademy.utils.ManageUserDataUtil;
+import starpark.filmacademy.view.itemtouch.ItemTouchHelperCallback;
 import starpark.filmacademy.view.recyclerview.HorizontalDividerItemDecoration;
 
 /**
@@ -31,7 +34,7 @@ import starpark.filmacademy.view.recyclerview.HorizontalDividerItemDecoration;
 public class HistoryActivity extends BaseActivity {
     @ViewInject(R.id.recyclerView)
     private RecyclerView recyclerView;
-    private CollectionAdapter collectionAdapter;
+    private HistoryAdapter historyAdapter;
     private ArrayList<Film> list;
 
     @Override
@@ -50,17 +53,18 @@ public class HistoryActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(
-                activity)
-                .color(activity.getResources().getColor(R.color.black_14))
-                .size(activity.getResources().getDimensionPixelSize(
-                        R.dimen.divider_2dp))
-                .build());
-        collectionAdapter = new CollectionAdapter(activity);
-        recyclerView.setAdapter(collectionAdapter);
+//        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(
+//                activity)
+//                .color(activity.getResources().getColor(R.color.black_14))
+//                .size(activity.getResources().getDimensionPixelSize(
+//                        R.dimen.divider_2dp))
+//                .build());
+        historyAdapter = new HistoryAdapter(activity,handler);
+        recyclerView.setAdapter(historyAdapter);
         //点击条目
-        collectionAdapter.setOnItemClickListener(new OnItemClickListener() {
+        historyAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(activity, FilmDetailedInfoActivity.class);
@@ -69,6 +73,9 @@ public class HistoryActivity extends BaseActivity {
 
             }
         });
+        ItemTouchHelperCallback callback=new ItemTouchHelperCallback(historyAdapter);
+        ItemTouchHelper itemTouchHelper=new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     @Override
@@ -92,7 +99,7 @@ public class HistoryActivity extends BaseActivity {
                     Bundle data = msg.getData();
                     if (data != null) {
                         list = data.getParcelableArrayList("list");
-                        collectionAdapter.setList(list);
+                        historyAdapter.setList(list);
                     }
 
                     break;

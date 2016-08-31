@@ -57,7 +57,7 @@ public class MainActivity extends BaseActivity {
         if (supportActionBar != null) {
             supportActionBar.setDisplayHomeAsUpEnabled(false);
             supportActionBar.setDisplayShowTitleEnabled(true);
-            supportActionBar.setTitle("童星电影学院");
+            supportActionBar.setTitle("美育星光");
         }
     }
 

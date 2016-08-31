@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">童星学院</string>
+    <string name="app_name">美育星光</string>
     <string name="action_settings">设置</string>
     <string name="permission_rationale">"请允许权限"</string>
     <string name="prompt_phone">手机号</string>

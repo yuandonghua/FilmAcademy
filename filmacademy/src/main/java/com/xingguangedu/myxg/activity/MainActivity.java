@@ -10,6 +10,7 @@ import android.widget.Toast;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
+import com.umeng.analytics.MobclickAgent;
 import com.xingguangedu.myxg.R;
 import com.xingguangedu.myxg.adapter.MainPagerAdapter;
 import com.xingguangedu.myxg.app.App;
@@ -96,6 +97,8 @@ public class MainActivity extends BaseActivity {
                     exitTime = System.currentTimeMillis();
                     Toast.makeText(activity, "双击返回键退出应用", Toast.LENGTH_SHORT).show();
                 } else {
+                    //友盟统计,用来保存统计数据。
+                    MobclickAgent.onKillProcess(activity);
                     App.exitApp();
                 }
             } else {

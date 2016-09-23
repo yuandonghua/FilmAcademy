@@ -3,7 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FilmAcademy.iml" filepath="$PROJECT_DIR$/FilmAcademy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FilmAcademy.iml" filepath="$PROJECT_DIR$/FilmAcademy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PushSDK/PushSDK.iml" filepath="$PROJECT_DIR$/PushSDK/PushSDK.iml" />
       <module fileurl="file://$PROJECT_DIR$/filmacademy/filmacademy.iml" filepath="$PROJECT_DIR$/filmacademy/filmacademy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/filmacademy/filmacademy.iml" filepath="$PROJECT_DIR$/filmacademy/filmacademy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library2/library2.iml" filepath="$PROJECT_DIR$/library2/library2.iml" />
       <module fileurl="file://$PROJECT_DIR$/library2/library2.iml" filepath="$PROJECT_DIR$/library2/library2.iml" />
     </modules>
   </component>

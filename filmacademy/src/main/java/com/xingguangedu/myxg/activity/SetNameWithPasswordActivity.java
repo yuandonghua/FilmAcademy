@@ -13,12 +13,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.xutils.common.util.LogUtil;
 import org.xutils.view.annotation.ContentView;
 
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UTrack;
 import com.xingguangedu.myxg.R;
 import com.xingguangedu.myxg.http.HttpIdentifyingCodeUtil;
 import com.xingguangedu.myxg.http.UserDataHttp;
+import com.xingguangedu.myxg.utils.AliasTypeUtils;
 import com.xingguangedu.myxg.utils.MD5Util;
+import com.xingguangedu.myxg.utils.ManageUserDataUtil;
 import com.xingguangedu.myxg.utils.SharedPreferencesUtil;
 
 
@@ -183,6 +189,22 @@ public class SetNameWithPasswordActivity extends BaseActivity {
                     if (data != null) {
 
                         String id = data.getString("id");
+
+                        //必须保证设备号获取到了
+                        if (!TextUtils.isEmpty(ManageUserDataUtil.getInstance().getDeviceCode())) {
+                            //设置别名,用于推送
+                            PushAgent.getInstance(activity).addExclusiveAlias(id, AliasTypeUtils.MYXG, new UTrack.ICallBack() {
+                                @Override
+                                public void onMessage(boolean isSuccess, String message) {
+                                    LogUtil.e("isSuccess:" + isSuccess);
+                                    LogUtil.e("message:" + message);
+                                }
+                            });
+                        }
+                        //统计用户账号id
+                        MobclickAgent.onProfileSignIn(id);
+
+
                         SharedPreferencesUtil.getInstance().setId(activity, id);
                         SharedPreferencesUtil.getInstance().setPhone(activity, phone);
                         SharedPreferencesUtil.getInstance().setName(activity, name);

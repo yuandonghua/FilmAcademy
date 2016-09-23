@@ -15,6 +15,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -47,6 +51,29 @@
         <activity android:name=".activity.PersonalDatumActivity" />
         <activity android:name=".activity.SetPasswordActivity" />
         <activity android:name=".activity.FeedbackActivity" />
+
+
+
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="57cfb769e0f55a7a85000773">
+        </meta-data>
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="d7f5ade522568544d5c3873a3cc61f5b">
+        </meta-data>
+        <!--若同时在AndroidManifest.xml和代码设置了Channel，则以代码设置的为准。-->
+        <!--若在AndroidManifest.xml和代码里均没有设置，则使用Unknown作为Channel ID。-->
+        <!--你可以使用20位以内的英文和数字为渠道定名（不要使用纯数字）。-->
+        <!--setMessageChannel函数需在调用注册接口前进行设置。-->
+        <!--每台设备仅识别首次安装激活的渠道。-->
+        <!--友盟消息推送可以和友盟统计分析共用AndroidManifest.xml中的"UMENG_CHANNEL"字段。-->
+        <!--即使在统计分析SDK代码中设置了Channel，也需要重新设置消息推送SDK的Channel。-->
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Test" >
+        </meta-data>
     </application>
 
 </manifest>

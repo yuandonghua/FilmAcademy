@@ -3,11 +3,35 @@ package com.xingguangedu.myxg.utils;
 import android.app.Activity;
 import android.util.Log;
 
+import org.xutils.common.util.LogUtil;
+
 /**
  * @description:管理用户的一些数据
  * @author:袁东华 created at 2016/7/4 0004 下午 5:53
  */
 public class ManageUserDataUtil {
+    //设备号
+    private String  deviceCode;
+
+    public String getDeviceCode() {
+        LogUtil.e("deviceCode:"+deviceCode);
+        return deviceCode;
+    }
+
+    public void setDeviceCode(String deviceCode) {
+        this.deviceCode = deviceCode;
+    }
+
+    public boolean getHasAlias() {
+        LogUtil.e("hasAlias:"+hasAlias);
+        return hasAlias;
+    }
+
+    public void setHasAlias(boolean hasAlias) {
+        this.hasAlias = hasAlias;
+    }
+    //是否设置别名
+    private boolean hasAlias;
 
     public void setUserName(Activity activity, String name) {
         userName = name;

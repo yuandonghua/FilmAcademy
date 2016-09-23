@@ -1,1 +1,1 @@
-include ':filmacademy', ':library2'
+include ':filmacademy', ':library2', ':PushSDK'

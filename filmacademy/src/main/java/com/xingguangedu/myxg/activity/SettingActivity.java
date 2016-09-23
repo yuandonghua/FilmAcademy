@@ -8,6 +8,7 @@ import android.widget.TextView;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
+import com.umeng.analytics.MobclickAgent;
 import com.xingguangedu.myxg.R;
 import com.xingguangedu.myxg.utils.ManageUserDataUtil;
 
@@ -59,6 +60,9 @@ public class SettingActivity extends BaseActivity {
         logoff_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //账号登出时需调用此接口，调用之后不再发送账号相关内容。
+                MobclickAgent.onProfileSignOff();
+
                 ManageUserDataUtil.getInstance().logOff(activity);
                 finish();
             }

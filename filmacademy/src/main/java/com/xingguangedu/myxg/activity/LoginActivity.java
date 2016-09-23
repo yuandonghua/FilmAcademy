@@ -21,12 +21,18 @@ import org.xutils.common.util.LogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.message.ALIAS_TYPE;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UTrack;
 import com.xingguangedu.myxg.R;
 import com.xingguangedu.myxg.app.App;
 import com.xingguangedu.myxg.data.PersonalDatum;
 import com.xingguangedu.myxg.http.HttpIdentifyingCodeUtil;
 import com.xingguangedu.myxg.http.UserDataHttp;
+import com.xingguangedu.myxg.utils.AliasTypeUtils;
 import com.xingguangedu.myxg.utils.MD5Util;
+import com.xingguangedu.myxg.utils.ManageUserDataUtil;
 import com.xingguangedu.myxg.utils.SharedPreferencesUtil;
 
 /**
@@ -180,6 +186,19 @@ public class LoginActivity extends BaseActivity {
                     if (data != null) {
                         PersonalDatum personalDatum = data.getParcelable("personalDatum");
                         if (personalDatum != null) {
+                            //必须保证设备号获取到了
+                            if (!TextUtils.isEmpty(ManageUserDataUtil.getInstance().getDeviceCode())) {
+                                //设置别名,用于推送
+                                PushAgent.getInstance(activity).addExclusiveAlias(personalDatum.getId(), AliasTypeUtils.MYXG, new UTrack.ICallBack() {
+                                    @Override
+                                    public void onMessage(boolean isSuccess, String message) {
+                                        LogUtil.e("isSuccess:" + isSuccess);
+                                        LogUtil.e("message:" + message);
+                                    }
+                                });
+                            }
+                            //统计用户账号id
+                            MobclickAgent.onProfileSignIn(personalDatum.getId());
                             SharedPreferencesUtil.getInstance().setName(activity, personalDatum.getName());
                             SharedPreferencesUtil.getInstance().setId(activity, personalDatum.getId());
                             SharedPreferencesUtil.getInstance().setPhone(activity, personalDatum.getPhone());
@@ -226,16 +245,18 @@ public class LoginActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
 
     }
-private long exitTime;
+
+    private long exitTime;
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK
                 && event.getAction() == KeyEvent.ACTION_DOWN) {
             if (!progressDialog.isShowing()) {
-                if (System.currentTimeMillis()-exitTime>1000){
-                    exitTime=System.currentTimeMillis();
+                if (System.currentTimeMillis() - exitTime > 1000) {
+                    exitTime = System.currentTimeMillis();
                     Toast.makeText(activity, "双击返回键退出应用", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     App.exitApp();
                 }
             } else {
@@ -245,7 +266,6 @@ private long exitTime;
         }
         return super.onKeyDown(keyCode, event);
     }
-
 
 
 }
